@@ -9,4 +9,8 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+	
+	<!-- Splashscreen !-->
+	<preference name="SplashScreen" value="splash" />
+	<preference name="SplashScreenDelay" value="5000" />
 </widget>

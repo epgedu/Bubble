@@ -1,0 +1,19 @@
+C:\Projects\uned\Bubble project\Bubble\platforms\android\gen\es\uned\epardo30\bubble\R.java \
+ : C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable\icon.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-hdpi\icon.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-hdpi\ic_bubble.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-hdpi\splash.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-ldpi\icon.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-ldpi\ic_bubble.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-ldpi\splash.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-mdpi\icon.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-mdpi\ic_bubble.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-mdpi\splash.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-xhdpi\icon.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-xhdpi\ic_bubble.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-xhdpi\splash.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-xxhdpi\ic_bubble.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\drawable-xxhdpi\splash.png \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\values\strings.xml \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\res\xml\config.xml \
+C:\Projects\uned\Bubble project\Bubble\platforms\android\bin\AndroidManifest.xml \
