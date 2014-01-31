@@ -27,6 +27,8 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener("online", this.toggleCon, false);
+    	document.addEventListener("offline", this.toggleCon, false);
     },
     // deviceready Event Handler
     //
@@ -34,16 +36,47 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        
+        setupSearchPage();
+        
+        //check the internet connection
+        if(navigator.network.connection.type == Connection.NONE) {
+    		navigator.notification.alert("Sorry, you are offline.", function() {}, "Offline!");
+    		//desactivar boton de busqueda
+    	} 
+        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
         console.log('Received Event: ' + id);
+    },
+    //internet conection 
+    toggleCon: function toggleCon(e) {
+    	if(e.type == "offline") {
+    		//TODO: desactivar botono de busqueda
+    		navigator.notification.alert("Sorry, you are offline.", function() {}, "Offline!");
+    		//desactivar boton
+    	} else {
+    		//activar boton de busqueda
+    		navigator.notification.alert("Woot, you are back online.", function() {}, "Online!");
+    		//activar boton
+    	}	
+    	
+    },
+    //handle errors
+    error: function(e, msg){
+        //show on div results, the error image and the text
+    	console.error("Exception: "+e+", Message: "+id);
+    	//the div results get the error style, add image and message and button ok
+    	$('#results').text('There was an error loading the data.');
+
     }
+
 };
+
+function setupSearchPage() {
+	console.log('Draw the seearch page');
+	$('#results').text('okokokokokok.');
+}
+
+
