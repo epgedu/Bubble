@@ -18,7 +18,7 @@
  */
 
 // global variables
-var body, menu, results, state, searchbar, buttonsbar ;
+var body, menu, results, state, searchbar, buttonsbar, attributes, unrelatedResults;
 
 // save the variables in order to get it later without to look for it
 body = document.getElementById("body"),
@@ -26,6 +26,9 @@ menu = document.getElementById("menu");
 results = document.getElementById("results");
 searchbar = document.getElementById("searchbar");
 buttonsbar = document.getElementById("buttonsbar");
+attributes = document.getElementById("attributes");
+unrelatedResults = document.getElementById("unrelated_results");
+
 
 //var to save the position and to handle the swipe event
 var down_x = null;
@@ -39,6 +42,10 @@ var app = {
         // A–adimos las clases necesarias
         body.className = 'page center';
         menu.className = 'page center';
+        results.className = 'layer_results left';
+        attributes.className = 'layer_attributes left';
+        buttonsbar.className = 'page down';
+        unrelatedResults.className = 'page right';
         //build the events
         this.bindEvents();
     },
@@ -59,21 +66,21 @@ var app = {
         new FastClick(document.body);
   
         //handle swipe event on results layer in order to open the menu
-        results.addEventListener('touchstart', function(e) {
+        body.addEventListener('touchstart', function(e) {
             // If there's exactly one finger inside this element
             var touch = e.targetTouches[0];
             console.log('start move on results');
         	down_x = touch.pageX;
         }, false);
         
-        results.addEventListener('touchmove', function(e) {
+        body.addEventListener('touchmove', function(e) {
         	console.log('moving on results');
         	e.preventDefault();
         	var touch = e.targetTouches[0];
     		up_x = touch.pageX;
       	}, false);
         
-        results.addEventListener('touchend', function(e) {
+        body.addEventListener('touchend', function(e) {
         	console.log('end move on results');
     		openMenu();
       	}, false);
@@ -156,11 +163,25 @@ function pushSearch() {
 	console.log("Init Search...");
 	//hide the search bar
 	searchbar.className = 'page transition up';
-	//increase the height of results layer
-	//results.style.height = '90%';
-	buttonsbar.className = 'paga transition centre';
+	//show the bottom bar
+	buttonsbar.className = 'page transition center';
+	//show the results layer
+	results.className = 'layer_results transition centre';
+	//show the attributes layer
+	attributes.className = 'layer_attributes transition centre';
 }
 
+function restart() {
+	console.log("Restart Search...");
+	//hide the results layer
+	results.className = 'layer_results transition left';
+	//hide the attributes layer
+	attributes.className = 'layer_attributes transition left';
+	//hide buttonsbar
+	buttonsbar.className = 'page transition down';
+	//show the search bar
+	searchbar.className = 'page transition center';
+}
 
 
 function openMenu()
@@ -189,6 +210,20 @@ function closeMenu()
     }
 }
 
+function unrelated(){
+	console.log("Unrelated Bubbles...");
+	body.className = 'page transition left';
+	menu.className = 'page transition left';
+	
+}
+
+function backUnrelated() {
+	
+	
+	
+	
+	
+}
 
 
 

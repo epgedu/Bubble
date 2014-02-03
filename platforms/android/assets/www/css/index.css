@@ -45,7 +45,7 @@ body {
 
 /*Style left div*/
 .page.left { 
-	-webkit-transform: translate3d(-100%, 0, 0); 
+	-webkit-transform: translate3d(-80%, 0, 0); 
 	transform: translate3d(-100%, 0, 0); 
 }
 
@@ -57,7 +57,7 @@ body {
  
  /*Style right page*/
 .page.right { 
-	-webkit-transform: translate3d(80%, 0, 0); 
+	-webkit-transform: translate3d(100%, 0, 0); 
 	transform: translate3d(80%, 0, 0); 
 }
 
@@ -67,16 +67,110 @@ body {
 	transform: translate3d(0, -100%, 0); 
 }
 
+.page.down {
+	-webkit-transform: translate3d(0, 100%, 0); 
+	transform: translate3d(0, 100%, 0);
+}
+
 
 /*Style general animation*/
 .page.transition { 
 	-webkit-transition-duration: 1s; 
 	transition-duration: 1s; 
+}
+
+
+
+
+/*Style bubble results*/
+#results{
+	-webkit-box-shadow:inset 1px 1px 111px 12px #DBE5FF;
+	box-shadow:inset 1px 1px 111px 12px #DBE1FF;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+/*Style general layer results*/
+.layer_results {
+	position: relative;
+	width: 90%;
+	height: 75%;
+	margin-left: 5%;
 } 
 
+/*Style general layer results when it is left side*/
+.layer_results.left {
+	
+	-moz-transform: scale(-0.5) rotate(360deg) translate3d(-400%, 0, 0); 
+	-webkit-transform: scale(-0.5) rotate(360deg) translate3d(-400%, 0, 0); 
+	-o-transform: scale(-0.5) rotate(360deg) translate3d(-400%, 0, 0); 
+	-ms-transform: scale(-0.5) rotate(360deg) translate3d(-400%, 0, 0); 
+	transform: scale(-0.5) rotate(360deg) translate3d(-400%, 0, 0); 
+	
+}
+
+/*Style general layer results when it is center side*/
+.layer_results.center {
+	-moz-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	-webkit-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	-o-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	-ms-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	
+}
+
+/*Style animation*/
+.layer_results.transition {
+	-webkit-transition-duration: 2s; 
+	transition-duration: 2s; 
+}
 
 
-/*Inicio estilos del menu principal*/
+
+/*Style general layer attributes*/
+.layer_attributes {
+	position: relative;
+	width: 80%;
+	height: 15%;
+	margin-left: 10%;
+	margin-right: 10%;
+} 
+
+/*Style general layer results when it is left side*/
+.layer_attributes.left {
+	-moz-transform: scale(-0.5) rotate(360deg) translate3d(0, 400%, 0); 
+	-webkit-transform: scale(-0.5) rotate(360deg) translate3d(0, 400%, 0); 
+	-o-transform: scale(-0.5) rotate(360deg) translate3d(0, 400%, 0); 
+	-ms-transform: scale(-0.5) rotate(360deg) translate3d(0, 400%, 0); 
+	transform: scale(-0.5) rotate(360deg) translate3d(0, 400%, 0); 
+}
+
+/*Style general layer results when it is left side*/
+.layer_attributes.centre {
+	-moz-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	-webkit-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	-o-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	-ms-transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+	transform: scale(1) rotate(360deg) translate3d(0, 0, 0); 
+}
+
+/*Style animation*/
+.layer_attributes.transition {
+	-webkit-transition-duration: 2s; 
+	transition-duration: 2s; 	
+}
+
+/*Style bubble attributes*/
+#attributes {
+	-webkit-box-shadow:inset 1px 1px 111px 12px #FAA1CF;
+	box-shadow:inset 1px 1px 111px 12px #FAA1CF;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+
+
+/*Style menu*/
 #menu{
         background:red;
         position:absolute;
@@ -84,7 +178,7 @@ body {
         height: 100%;
 }
 
-
+/*Style body*/
 #body {
 	position:absolute;
     width: 100%;
@@ -122,26 +216,8 @@ body {
 	background-color: #8abaee;
 }
 
-
-/*default style when the screen at least 426 × 320  ldpi*/ 
-#searchbtn {
-	width: 40px; height: 40px; float: right; 
-	border-radius: 100px; -moz-border-radius: 10dsf0px; -webkit-border-radius: 100px;
-	background-image: url(../img/small/searchimg.png);
-}
-
-#results{
-	position: relative;
-	width: 50%;
-	height: 90%;
-	left: 0px;
-	-webkit-box-shadow:inset 1px 1px 111px 12px #DBE5FF;
-	box-shadow:inset 1px 1px 111px 12px #DBE1FF;
-	-webkit-border-radius: 999px 999px 999px 999px;
-	border-radius: 999px 999px 999px 999px;
-}
-
 #buttonsbar{
+	position:relative;
 	width:100%;
 	height: 10%;
 	bottom: -100%;
@@ -151,6 +227,88 @@ body {
 	-webkit-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
+
+/*Style init layer*/
+#init {
+	position: relative;
+	float: left;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 5%;
+	width: 25%;
+	height: 80%;
+	
+	/*corners*/
+	-webkit-box-shadow:inset 1px 1px 111px 12px #B2A5FF;
+	box-shadow:inset 1px 1px 111px 12px #B2A5FF;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+	
+	/*transform*/
+	-moz-transform: skewX(11deg) skewY(11deg);
+	-webkit-transform: skewX(11deg) skewY(11deg);
+	-o-transform: skewX(11deg) skewY(11deg);
+	-ms-transform: skewX(11deg) skewY(11deg);
+	transform: skewX(11deg) skewY(11deg);
+}
+
+#unrelated {
+	position: relative;
+	float: right;
+	
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 5%;
+	width: 25%;
+	height: 80%;
+	
+	/*corners*/
+	-webkit-box-shadow:inset 1px 1px 111px 12px #F7B5FF;
+	box-shadow:inset 1px 1px 111px 12px #F7B5FF;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+	
+	/*transform*/
+	-moz-transform: skewX(-11deg) skewY(-11deg);
+	-webkit-transform: skewX(-11deg) skewY(-11deg);
+	-o-transform: skewX(-11deg) skewY(-11deg);
+	-ms-transform: skewX(-11deg) skewY(-11deg);
+	transform: skewX(-11deg) skewY(-11deg);
+}
+
+
+#unrelated_results {
+	background:green;
+    position:absolute;
+    width: 80%;
+    height: 100%;
+}
+
+
+
+/*class for bubbles*/
+.bubble {
+	position: relative;
+	text-align: center;
+	width: 12%;
+	height: 7%;
+	font-size:8px;
+	/*corners*/
+	-webkit-box-shadow:inset 1px 1px 111px 12px #F7B5FF;
+	box-shadow:inset 1px 1px 111px 12px #F7B5FF;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+
+
+/*default style searchbtn when the screen at least 426 × 320  ldpi*/ 
+#searchbtn {
+	width: 40px; height: 40px; float: right; 
+	border-radius: 100px; -moz-border-radius: 10dsf0px; -webkit-border-radius: 100px;
+	background-image: url(../img/small/searchimg.png);
+}
+
 
 /* Landscape layout at least 470 × 320 mdpi*/
 @media screen and (min-width:470px) and (min-height:320px) {
