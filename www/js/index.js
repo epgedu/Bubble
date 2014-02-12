@@ -16,67 +16,222 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+// global variables (div's)
+var appDiv, 
+searchbarDiv, 
+resultsDiv, 
+searchTraceBriefBubble, 
+initBubble, 
+listBriefBubble, 
+refineBriefBubble, 
+backBubble,
+moreBubble, 
+searchTraceBubble, 
+listBubble, 
+refineBubble, 
+errorScreen, 
+moreBubble, 
+moreBubbleLink, 
+searchBtn; 
+
+//save the variables in order to get it later without to look for it
+appDiv = document.getElementById("app_div");
+searchbarDiv = document.getElementById("searchbar_div");
+resultsDiv = document.getElementById("results_div");
+menuDiv = document.getElementById("menu_div");
+searchBtn = document.getElementById("searchbtn");
+
+//global variables (load control)
+var refreshDatas, 
+isBackBubble, 
+isBuiltRefineBriefBubble, 
+isBuiltListBriefBubble, 
+isBuiltInitBubble, 
+isBuiltTracerBriefBubble,  
+isMoreLink, 
+isBuiltTraceBubble, 
+refreshDataTraceBubble, 
+isBuiltListBubble, 
+refreshDataListBubble, 
+isBuiltRefineBubble, 
+refreshDataRefineBubble, 
+isBuiltError, 
+isBuiltMoreBubble, 
+refreshMoreBubble, 
+wasMoved = false;
+
+var updateFrom = '';
+
+//var to save the position and to handle the swipe event
+var down_x = null;
+var up_x = null;
+
 var app = {
     // Application Constructor
     initialize: function() {
+    	// Initial state showing the body on central page
+        state="body";
+        //inital positions div's
+        appDiv.className = 'page center';
+        menuDiv.className = 'page center';
+        resultsDiv.className = 'results right'
+        
         this.bindEvents();
     },
+    
     // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
+    // Bind any events that are required on startup. Common events are: 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.addEventListener("online", this.toggleCon, false);
-    	document.addEventListener("offline", this.toggleCon, false);
     },
+    
     // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicity call 'app.receivedEvent(...);'
+    // The scope of 'this' is the event. In order to call the 'receivedEvent' function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-        
-        setupSearchPage();
-        
-        //check the internet connection
-        if(navigator.network.connection.type == Connection.NONE) {
-    		navigator.notification.alert("Sorry, you are offline.", function() {}, "Offline!");
-    		//desactivar boton de busqueda
-    	} 
-        
+    	
+    	try {
+	    	app.receivedEvent('deviceready');
+	    	
+	    	//device features
+	    	// These reference the same `device`
+	    	var phoneModel = window.device.model;
+	    	var phoneModel = device.model;
+	    	console.log('Device Name: '+ phoneModel);
+	    								 
+	    	
+	        // Execute the FastClick function, which removes the 300ms delay when the user click 
+	        new FastClick(document.body);
+	        
+	        //handle swipe event on results layer in order to open the menu
+	        appDiv.addEventListener('touchstart', function(e) {
+	            // If there's exactly one finger inside this element
+	            var touch = e.targetTouches[0];
+	            console.log('start move on results');
+	        	down_x = touch.pageX;
+	        }, false);
+	        
+	        appDiv.addEventListener('touchmove', function(e) {
+	        	console.log('moving on results');
+	        	e.preventDefault();
+	        	var touch = e.targetTouches[0];
+	    		up_x = touch.pageX;
+	    		wasMoved = true;
+	      	}, false);
+	        
+	        appDiv.addEventListener('touchend', function(e) {
+	        	console.log('end move on results');
+	    		if(wasMoved) {
+	    			openMenu();
+	    			wasMoved = false;
+	    		}
+	        	
+	      	}, false);
+	        
+	        //handle swipe event in order to close the menu
+	        menuDiv.addEventListener('touchstart', function(e) {
+	            var touch = e.targetTouches[0];
+	            console.log('start move on menu');
+	        	down_x = touch.pageX;
+	        }, false);
+	        
+	        menuDiv.addEventListener('touchmove', function(e) {
+	        	console.log('moving on menu');
+	        	e.preventDefault();
+	        	var touch = e.targetTouches[0];
+	    		up_x = touch.pageX;
+	    		wasMoved = true;
+	        }, false);
+	        
+	        menuDiv.addEventListener('touchend', function(e) {
+	        	console.log('end move on menu');
+	        	if(wasMoved) {
+	        		closeMenu();
+	        		wasMoved = false;
+	        	}
+	      	}, false);
+	        
+	                
+	        //check the internet connection
+	        if(navigator.network.connection.type == Connection.NONE) {
+	        	app.error(null, "Sorry, you are offline...");
+	    		//disable search buttom
+	        	searchBtn.disabled = true;
+	        } 
+	        document.addEventListener("online", this.handleConnection, false);
+	    	document.addEventListener("offline", this.handleConnection, false);
+    	}
+    	catch (e) {
+    		/*if the error happens during the app init, then it doesn't make sense go to error page, because the
+    		 * app is not initialized. Then we set a notification and exit from app. 
+    		 */ 
+    		console.error("Exception: "+e);
+    		navigator.notification.alert("Fatal error initializing... Please contanct the site administrator.", function() {navigator.app.exitApp();}, "Error");
+    		app.vibrate();
+    	}
     },
+    
+    
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         console.log('Received Event: ' + id);
     },
+    
+    
     //internet conection 
-    toggleCon: function toggleCon(e) {
-    	if(e.type == "offline") {
-    		//TODO: desactivar botono de busqueda
-    		navigator.notification.alert("Sorry, you are offline.", function() {}, "Offline!");
-    		//desactivar boton
-    	} else {
-    		//activar boton de busqueda
-    		navigator.notification.alert("Woot, you are back online.", function() {}, "Online!");
-    		//activar boton
-    	}	
-    	
+    handleConnection: function getNotificationConnection(e) {
+    	try {
+	    	if(e.type == "offline") {
+	    		app.error(null, "Sorry, you are offline...");
+	    		//disable search buttom
+	        	searchBtn.disabled = true;
+	    	} else {
+	    		app.info(null, "Woot, you are back online.");
+	    		//able search buttom
+	    		searchBtn.disabled = false;
+	    	}
+    	}
+    	catch(e) {
+    		app.error(e, "Fatal error handle the connection... Please contanct the site administrator.");
+    	}
     },
+    
+    
+    vibrate: function () {
+    	try {
+    		//TODO: Establecer el segundo de vibracion como una propiedad externa
+    		navigator.notification.vibrate(1000);
+    	}
+    	catch (e) {
+    		app.info(e, "Error with vibration... Please contanct the site administrator.");
+    	}
+    },
+    
+    
     //handle errors
     error: function(e, msg){
         //show on div results, the error image and the text
-    	console.error("Exception: "+e+", Message: "+id);
-    	//the div results get the error style, add image and message and button ok
-    	$('#results').text('There was an error loading the data.');
-
+    	buildError(msg);
+    	app.vibrate();
+    	if(e==null) { //info
+    		console.log("Message: "+msg);
+    	}
+    	else { //error
+    		console.error("Exception: "+e+", Message: "+msg);
+    	}
+    },
+    
+    //handle information
+    info: function(e, msg) {
+    	//show the problem through notification, not with error screen due to is not a important error
+    	navigator.notification.alert(msg, function() {}, "Info");
+		app.vibrate();
+		if(e==null) { //info
+    		console.log("Message: "+msg);
+    	}
+    	else { //error
+    		console.error("Exception: "+e+", Message: "+msg);
+    	}
     }
-
+    
 };
-
-function setupSearchPage() {
-	console.log('Draw the seearch page');
-	$('#results').text('okokokokokok.');
-}
-
-

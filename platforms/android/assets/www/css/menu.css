@@ -1,5 +1,7 @@
 @CHARSET "ISO-8859-1";
 
+/*menu style*/
+
 #menu_div {
 	top: 0px;
 	left: 0px;
@@ -104,6 +106,6 @@
 }
  
 .accordion > div:target {
-    height: 100px;
+    height: 170px;
 }
 

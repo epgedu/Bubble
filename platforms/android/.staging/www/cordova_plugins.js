@@ -42,6 +42,13 @@ module.exports = [
         "merges": [
             "navigator.notification"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
+        "clobbers": [
+            "device"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -50,7 +57,8 @@ module.exports.metadata =
     "org.apache.cordova.splashscreen": "0.2.6",
     "org.apache.cordova.network-information": "0.2.6",
     "org.apache.cordova.dialogs": "0.2.5",
-    "org.apache.cordova.vibration": "0.3.6"
+    "org.apache.cordova.vibration": "0.3.6",
+    "org.apache.cordova.device": "0.2.8"
 }
 // BOTTOM OF METADATA
 });

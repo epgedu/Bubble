@@ -1,0 +1,150 @@
+@CHARSET "ISO-8859-1";
+
+/*
+This file contains the bubbles style. 
+*/
+
+/***************************STYLE TO MEDIUM BUBBLES*****************************/
+
+.bubble_yellow_small{
+	position: absolute;
+	width:15%;
+	height: 8%;
+	text-align: center;
+	
+	background-color: #FAFFB8;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+.bubble_gray{
+	position: absolute;
+	width:30%;
+	height: 15%;
+	text-align: center;
+	
+	background-color: #ADADA8;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+
+/*style search_trace_brief_bubble*/
+.search_trace_brief_bubble {
+	position:relative;
+	width:60%;
+	height: 30%;
+	text-align: center;
+	
+	background: rgba(255, 185, 79, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+	
+	-webkit-animation-name: wobble-skew-init;
+	animation-name: wobble-skew-init;
+	-webkit-animation-duration: 1.5s;
+	animation-duration: 1.5s;
+	-webkit-animation-timing-function: ease;
+	animation-timing-function: ease;
+	-webkit-animation-iteration-count: 1;
+	animation-iteration-count: 1;
+}
+
+.list_brief_bubble {
+	position:relative;
+	width:80%;
+	height: 30%;
+	text-align: center;
+	
+	background: rgba(136, 117, 255, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+	
+	
+  	-webkit-animation-name: wobble-skew-init;
+  	animation-name: wobble-skew-init;
+  	-webkit-animation-duration: 1.5s;
+  	animation-duration: 1.5s;
+  	-webkit-animation-timing-function: ease;
+  	animation-timing-function: ease;
+  	-webkit-animation-iteration-count: 1;
+  	animation-iteration-count: 1;
+}
+
+
+.refine_brief_bubble {
+	position:relative;
+	width:60%;
+	height: 30%;
+	text-align: center;
+	
+	background: rgba(94, 255, 196, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+	
+	-webkit-animation-name: wobble-skew-init;
+  	animation-name: wobble-skew-init;
+  	-webkit-animation-duration: 1.5s;
+  	animation-duration: 1.5s;
+  	-webkit-animation-timing-function: ease;
+  	animation-timing-function: ease;
+  	-webkit-animation-iteration-count: 1;
+  	animation-iteration-count: 1;
+}
+
+
+.more_link {
+	position: absolute;
+	width:30%;
+	height: 16%;
+	text-align: center;
+	
+	background: rgba(219, 11, 39, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+
+.search_trace_bubble {
+	position:relative;
+	width:100%;
+	height: 100%;
+	text-align: center;
+	
+	background: rgba(255, 185, 79, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+.list_bubble {
+	position:relative;
+	width:100%;
+	height: 100%;
+	text-align: center;
+	
+	background: rgba(136, 117, 255, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+.refine_bubble {
+	position:relative;
+	width:100%;
+	height: 100%;
+	text-align: center;
+	
+	background: rgba(94, 255, 196, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+.more_bubble {
+	position:relative;
+	width:100%;
+	height: 100%;
+	text-align: center;
+	
+	background: rgba(219, 11, 39, 0.5);
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
