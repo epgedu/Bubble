@@ -110,10 +110,13 @@ This file contains the bubbles style.
 	width:100%;
 	height: 100%;
 	text-align: center;
-	
-	background: rgba(255, 185, 79, 0.5);
+	top: 45px;
+	bottom: 48px;
+	z-index: 1;
+	overflow: hidden;
 	-webkit-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
+	background: rgba(255, 185, 79, 0.5);
 }
 
 .list_bubble {

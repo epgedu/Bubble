@@ -96,7 +96,7 @@ var app = {
 	    	// Execute the FastClick function, which removes the 300ms delay when the user click 
 	        new FastClick(document.body);
 	        
-	    	//device features
+	        //device features
 	    	console.log('Device name: '+ device.name );
 	    	console.log('Device model: '+ device.model);
 	    	console.log('Device cordova: '+ device.cordova );
@@ -164,6 +164,10 @@ var app = {
 	        } 
 	        document.addEventListener("online", this.handleConnection, false);
 	    	document.addEventListener("offline", this.handleConnection, false);
+	    	
+	    	//var wrapper = document.getElementById('wrapper');
+	    	//var myScroll = new IScroll('#wrapper', { mouseWheel: true });
+	    	//wrapper.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
     	}
     	catch (e) {
     		/*if the error happens during the app init, then it doesn't make sense go to error page, because the

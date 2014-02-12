@@ -295,18 +295,27 @@ function buildRefineBrief() {
 /*
  * Built the search trace bubble
  */
+var scroller2;
 function buildSearchTrace() {
 	try {
 		
 		if(!isBuiltTraceBubble) {
+			
+			scroller2 = document.createElement('div');
+			scroller2.id = 'scroller2';
+			
+			
+			
+			
+			
 			//bubble where completed search trace is saved
-			searchTraceBubble = document.createElement('div');
-			searchTraceBubble.id = 'search_trace_bubble';
-			searchTraceBubble.className = 'search_trace_bubble';
+			//searchTraceBubble = document.createElement('div');
+			//searchTraceBubble.id = 'search_trace_bubble';
+			//searchTraceBubble.className = 'search_trace_bubble';
 			isBuiltTraceBubble = true; //this object will not be built again
 		
-			//event
-			searchTraceBubble.addEventListener('touchstart', function(e) {
+			/*event
+			scroller2.addEventListener('touchstart', function(e) {
 				console.log('click go to ppal results search trace without results');
 				event.preventDefault();
 				//hide the result layer
@@ -317,22 +326,89 @@ function buildSearchTrace() {
 				//show the result layer
 				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
 			}, false);
-			
-			//iscroll
-			var searchTraceScroll = new IScroll('#search_trace_bubble');
-			
+			*/
+			//add iscroll
+			//var scrollerSearchTrace = document.createElement('div');
+			//scrollerSearchTrace.className = 'scroller2';
+			//searchTraceBubble.appendChild(scrollerSearchTrace);
+			//var scrollSearchTrace = new IScroll('#search_trace_bubble', { mouseWheel: trueresultsDivarchTrace.addEventListener('touchmove', function (e) { console.log() e.preventDefault(); }, false);
 		}
+		
+		//remove all divs from results div parent
+		
+		
 		//if we have to refresh the datas on this bubble
 		if(refreshDataTraceBubble) {
-			searchTraceBubble.innerHTML = "You are here: \n";
-			searchTraceBubble.innerHTML += "8 de 10";
-			
+			scroller2.innerHTML = "You are here: \n";
+			scroller2.innerHTML += "8 de 10";
+			scroller2.innerHTML += "<ul><li>Pretty row 1</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li>";
+			scroller2.innerHTML += "<li>Pretty row 2</li></ul>";
+								
 			refreshDataTraceBubble = false;
 		}
-		//remove all divs from results div parent
+		
 		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
 		//add the new bubble
-		resultsDiv.appendChild(searchTraceBubble);
+		resultsDiv.appendChild(scroller2);
+		
+		var myScroll2 = new IScroll('#results_div', { mouseWheel: true });
+    	resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+		//while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+		//add the new bubble
+		//resultsDiv.appendChild(searchTraceBubble);
+		
+    	
 	}
 	catch(e) {
 		app.error(e, "Fatal error building search trace bubble... Please contanct the site administrator.");
@@ -362,9 +438,6 @@ function buildList() {
 				//show the result layer
 				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
 			}, false);
-			
-			//iscroll
-			var listBubbleScroll = new IScroll('#list_bubble');
 		}
 		//if we have to refresh the datas on this bubble
 		if(refreshDataListBubble) {
@@ -406,19 +479,22 @@ function buildRefine() {
 				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
 			}, false);
 		
-			//iscroll
-			var refineBubbleScroll = new IScroll('#refine_bubble');
+			
+			
 		}
+		
 		//if we have to refresh the datas on this bubble
 		if(refreshDataRefineBubble) {
 			refineBubble.innerHTML = "Subcategories: \n";
-			//include all bubbles
+			//include div with all bubbles 
 			refreshDataRefineBubble = false;
 		}
+		
 		//remove all divs from results div parent
 		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
 		//add the new bubble to results div
 		resultsDiv.appendChild(refineBubble);
+		
 	}
 	catch(e) {
 		app.error(e, "Fatal error building refine bubble... Please contanct the site administrator.");
