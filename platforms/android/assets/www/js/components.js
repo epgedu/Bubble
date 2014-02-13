@@ -7,8 +7,8 @@
  */
 function openMenu() {
 	try {
-		//if swipe left more 50px on results layer
-	    if ((up_x - down_x) > 50) {
+		//if swipe left more 80px on results layer
+	    if ((up_x - down_x) > 80) {
 	    	//if state is body
 	    	if(state=="body"){ 
 	    		console.log('open menu');
@@ -27,8 +27,8 @@ function openMenu() {
  */
 function closeMenu() {
 	try {
-		//if swipe right more 50px on menu layer
-		if ((down_x - up_x) > 50) {
+		//if swipe right more 30px on menu layer
+		if ((down_x - up_x) > 30) {
 	    	//if state is menu
 		  if(state=="menu"){
 			  	console.log('close menu');
@@ -126,8 +126,8 @@ function buildSearchTraceBrief() {
 	            if(event.targetTouches.length > 1 && spread){
 	            	console.log('xFirstFinger: '+xFirstFinger);
 	                console.log('xSecondFinger: '+xSecondFinger);
-	            	if(xFirstFinger - event.targetTouches[0].pageX > 15) {
-	            		if(event.targetTouches[1].pageX - xSecondFinger  > 15) {
+	            	if(xFirstFinger - event.targetTouches[0].pageX > 5) {
+	            		if(event.targetTouches[1].pageX - xSecondFinger  > 5) {
 	            			console.log('spread gesture: go to tracer bubble');
 	        				event.preventDefault();
 	        				//hide the result layer
@@ -295,120 +295,70 @@ function buildRefineBrief() {
 /*
  * Built the search trace bubble
  */
-var scroller2;
 function buildSearchTrace() {
 	try {
 		
 		if(!isBuiltTraceBubble) {
-			
-			scroller2 = document.createElement('div');
-			scroller2.id = 'scroller2';
-			
-			
-			
-			
-			
-			//bubble where completed search trace is saved
-			//searchTraceBubble = document.createElement('div');
-			//searchTraceBubble.id = 'search_trace_bubble';
-			//searchTraceBubble.className = 'search_trace_bubble';
+			//the div searchTraceBubble is the scroller rol
+			searchTraceBubble = document.createElement('div');
+			searchTraceBubble.className = 'search_trace_bubble';
+			searchTraceBubble.id = 'search_trace_bubble';
 			isBuiltTraceBubble = true; //this object will not be built again
 		
-			/*event
-			scroller2.addEventListener('touchstart', function(e) {
-				console.log('click go to ppal results search trace without results');
-				event.preventDefault();
-				//hide the result layer
-				resultsDiv.className = 'results transition right';
-				//remove all divs from results div parent
-				while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-				//we have not created a new content because we did not refresh 
-				//show the result layer
-				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
-			}, false);
-			*/
-			//add iscroll
-			//var scrollerSearchTrace = document.createElement('div');
-			//scrollerSearchTrace.className = 'scroller2';
-			//searchTraceBubble.appendChild(scrollerSearchTrace);
-			//var scrollSearchTrace = new IScroll('#search_trace_bubble', { mouseWheel: trueresultsDivarchTrace.addEventListener('touchmove', function (e) { console.log() e.preventDefault(); }, false);
+			//events
+			if (device.model == "sdk") { //if the app is executed on emulator then simple touch (tap)
+				var isScrolling = false;
+				
+				searchTraceBubble.addEventListener('touchmove', function(e) {
+					event.preventDefault();
+					isScrolling = true;
+				}, false);	
+				
+				searchTraceBubble.addEventListener('touchend', function(e) {
+					if(!isScrolling) { //el user didn't use the iscroll and wants to close the bubble
+						console.log('click go to ppal results search trace without results');
+						event.preventDefault();
+						//hide the result layer
+						resultsDiv.className = 'results transition right';
+						//remove all divs from results div parent
+						while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+						//we have not created a new content because we did not refresh 
+						//show the result layer
+						window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
+					}
+					else {
+						isScrolling = false; //reset the value
+					}
+				}, false);	
+			}
+			else { //the app is executed on real device , catch the pinch event.
+				
+			}
 		}
-		
-		//remove all divs from results div parent
-		
 		
 		//if we have to refresh the datas on this bubble
 		if(refreshDataTraceBubble) {
-			scroller2.innerHTML = "You are here: \n";
-			scroller2.innerHTML += "8 de 10";
-			scroller2.innerHTML += "<ul><li>Pretty row 1</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li>";
-			scroller2.innerHTML += "<li>Pretty row 2</li></ul>";
+			//create a div per results you're here
+			
 								
 			refreshDataTraceBubble = false;
 		}
 		
+		//remove all divs from results div parent
 		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
 		//add the new bubble
-		resultsDiv.appendChild(scroller2);
+		resultsDiv.appendChild(searchTraceBubble);
 		
-		var myScroll2 = new IScroll('#results_div', { mouseWheel: true });
-    	resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-		//while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-		//add the new bubble
-		//resultsDiv.appendChild(searchTraceBubble);
-		
-    	
+		if(!isBuiltScrollResult){
+			console.log('building first and one time scroll result');
+			scrollResult = new IScroll('#results_div', { mouseWheel: true });
+			isBuiltScrollResult = true; 
+		}
+		else {
+			console.log('refresh scrollResult');
+			scrollResult.refresh();
+		}
+		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	}
 	catch(e) {
 		app.error(e, "Fatal error building search trace bubble... Please contanct the site administrator.");
@@ -604,3 +554,62 @@ function buildError(msg) {
 		app.vibrate();
 	}
 }
+
+/*
+searchTraceBubble.innerHTML = "You are here: \n";
+			searchTraceBubble.innerHTML += "8 de 10";
+			searchTraceBubble.innerHTML += "<ul><li>Pretty row 1</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li>Pretty row 2</li></ul>";
+
+*/

@@ -35,6 +35,9 @@ moreBubble,
 moreBubbleLink, 
 searchBtn; 
 
+//scroll on result_div
+var scrollResult;
+
 //save the variables in order to get it later without to look for it
 appDiv = document.getElementById("app_div");
 searchbarDiv = document.getElementById("searchbar_div");
@@ -59,7 +62,8 @@ refreshDataRefineBubble,
 isBuiltError, 
 isBuiltMoreBubble, 
 refreshMoreBubble, 
-wasMoved = false;
+wasMoved,
+isBuiltScrollResult = false;
 
 var updateFrom = '';
 
@@ -111,6 +115,7 @@ var app = {
 	        appDiv.addEventListener('touchstart', function(e) {
 	            // If there's exactly one finger inside this element
 	            var touch = e.targetTouches[0];
+	            //console.log('target: '+touch.target.id)
 	            console.log('start move on results');
 	        	down_x = touch.pageX;
 	        }, false);
