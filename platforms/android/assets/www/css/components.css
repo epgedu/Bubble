@@ -109,12 +109,12 @@ This file contains the bubbles style.
 	position: absolute;
 	z-index: 1;
 	
-	/*
+	
 	margin-left: 5%;
 	margin-right: 5%;
 	margin-top: 5%;
 	margin-bottom: 5%;
-	*/
+	
 	
 	-webkit-transform: translateZ(0);
 	-moz-transform: translateZ(0);
@@ -144,17 +144,20 @@ This file contains the bubbles style.
 	text-align: center;
 }
 
-.search_trace_bubble li {
+.li_bubble {
 	display: block;
 	float: left;
-	width: 250px;
-	height: 250px;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+	width: 150px;
+	height: 150px;
+	-webkit-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
+}
+
+.li_space {
+	display: block;
+	float: left;
+	height: 70px;
 	background-color: #fafafa;
-	font-size: 18px;
-	
-	
 	-webkit-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
@@ -165,6 +168,7 @@ This file contains the bubbles style.
 	-o-transform: scale(-0.5); 
 	-ms-transform: scale(-0.5); 
 	transform: scale(-0.5); 
+	
 }
 
 .list_bubble {

@@ -339,7 +339,19 @@ function buildSearchTrace() {
 		//if we have to refresh the datas on this bubble
 		if(refreshDataTraceBubble) {
 			//create a div per results you're here
+			searchTraceBubble.innerHTML = "You are here: \n";
+			searchTraceBubble.innerHTML += "8 de 10";
 			
+			searchTraceBubble.innerHTML += "<ul>";
+			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
+			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 1</li>";
+			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
+			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 2</li>";
+			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
+			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 3</li>";
+			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
+			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 4</li>";
+			searchTraceBubble.innerHTML += "</ul>";
 								
 			refreshDataTraceBubble = false;
 		}
