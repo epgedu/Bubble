@@ -14,6 +14,9 @@ This file contains the bubbles style.
 	
 	background-color: #FAFFB8;
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
 
@@ -25,6 +28,9 @@ This file contains the bubbles style.
 	
 	background-color: #ADADA8;
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
 
@@ -38,15 +44,33 @@ This file contains the bubbles style.
 	
 	background: rgba(255, 185, 79, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 	
 	-webkit-animation-name: wobble-skew-init;
+	-o-animation-name: wobble-skew-init;
+	-moz-animation-name: wobble-skew-init;
+	-ms-animation-name: wobble-skew-init;
 	animation-name: wobble-skew-init;
+	
 	-webkit-animation-duration: 1.5s;
+	-o-animation-duration: 1.5s;
+	-moz-animation-duration: 1.5s;
+	-ms-animation-duration: 1.5s;
 	animation-duration: 1.5s;
+	
 	-webkit-animation-timing-function: ease;
+	-o-animation-timing-function: ease;
+	-moz-animation-timing-function: ease;
+	-ms-animation-timing-function: ease;
 	animation-timing-function: ease;
+	
 	-webkit-animation-iteration-count: 1;
+	-o-animation-iteration-count: 1;
+	-moz-animation-iteration-count: 1;
+	-ms-animation-iteration-count: 1;
 	animation-iteration-count: 1;
 }
 
@@ -58,17 +82,34 @@ This file contains the bubbles style.
 	
 	background: rgba(136, 117, 255, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 	
+	-webkit-animation-name: wobble-skew-init;
+	-o-animation-name: wobble-skew-init;
+	-moz-animation-name: wobble-skew-init;
+	-ms-animation-name: wobble-skew-init;
+	animation-name: wobble-skew-init;
 	
-  	-webkit-animation-name: wobble-skew-init;
-  	animation-name: wobble-skew-init;
-  	-webkit-animation-duration: 1.5s;
-  	animation-duration: 1.5s;
-  	-webkit-animation-timing-function: ease;
-  	animation-timing-function: ease;
-  	-webkit-animation-iteration-count: 1;
-  	animation-iteration-count: 1;
+	-webkit-animation-duration: 1.5s;
+	-o-animation-duration: 1.5s;
+	-moz-animation-duration: 1.5s;
+	-ms-animation-duration: 1.5s;
+	animation-duration: 1.5s;
+	
+	-webkit-animation-timing-function: ease;
+	-o-animation-timing-function: ease;
+	-moz-animation-timing-function: ease;
+	-ms-animation-timing-function: ease;
+	animation-timing-function: ease;
+	
+	-webkit-animation-iteration-count: 1;
+	-o-animation-iteration-count: 1;
+	-moz-animation-iteration-count: 1;
+	-ms-animation-iteration-count: 1;
+	animation-iteration-count: 1;
 }
 
 
@@ -80,16 +121,34 @@ This file contains the bubbles style.
 	
 	background: rgba(94, 255, 196, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 	
 	-webkit-animation-name: wobble-skew-init;
-  	animation-name: wobble-skew-init;
-  	-webkit-animation-duration: 1.5s;
-  	animation-duration: 1.5s;
-  	-webkit-animation-timing-function: ease;
-  	animation-timing-function: ease;
-  	-webkit-animation-iteration-count: 1;
-  	animation-iteration-count: 1;
+	-o-animation-name: wobble-skew-init;
+	-moz-animation-name: wobble-skew-init;
+	-ms-animation-name: wobble-skew-init;
+	animation-name: wobble-skew-init;
+	
+	-webkit-animation-duration: 1.5s;
+	-o-animation-duration: 1.5s;
+	-moz-animation-duration: 1.5s;
+	-ms-animation-duration: 1.5s;
+	animation-duration: 1.5s;
+	
+	-webkit-animation-timing-function: ease;
+	-o-animation-timing-function: ease;
+	-moz-animation-timing-function: ease;
+	-ms-animation-timing-function: ease;
+	animation-timing-function: ease;
+	
+	-webkit-animation-iteration-count: 1;
+	-o-animation-iteration-count: 1;
+	-moz-animation-iteration-count: 1;
+	-ms-animation-iteration-count: 1;
+	animation-iteration-count: 1;
 }
 
 
@@ -101,6 +160,9 @@ This file contains the bubbles style.
 	
 	background: rgba(219, 11, 39, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
 
@@ -121,11 +183,14 @@ This file contains the bubbles style.
 	-ms-transform: translateZ(0);
 	-o-transform: translateZ(0);
 	transform: translateZ(0);
+	
 	-webkit-touch-callout: none;
+	
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	
 	-webkit-text-size-adjust: none;
 	-moz-text-size-adjust: none;
 	-ms-text-size-adjust: none;
@@ -158,7 +223,11 @@ This file contains the bubbles style.
 	float: left;
 	height: 70px;
 	background-color: #fafafa;
+	
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
 
@@ -178,7 +247,11 @@ This file contains the bubbles style.
 	text-align: center;
 	
 	background: rgba(136, 117, 255, 0.5);
+	
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
 
@@ -189,7 +262,11 @@ This file contains the bubbles style.
 	text-align: center;
 	
 	background: rgba(94, 255, 196, 0.5);
+	
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
 
@@ -200,6 +277,10 @@ This file contains the bubbles style.
 	text-align: center;
 	
 	background: rgba(219, 11, 39, 0.5);
+	
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
