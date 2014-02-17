@@ -70,6 +70,10 @@ var updateFrom = '';
 //var to save the position and to handle the swipe event
 var down_x = null;
 var up_x = null;
+//var to save the position and to handle the spread event
+var xFirstFinger, xSecondFinger, idFirstFinger, idSecondFinger = null;
+var pixelesTotal, pixelesSecond, pixelesFirst = 0;
+var spread = false;
 
 var app = {
     // Application Constructor
@@ -107,6 +111,13 @@ var app = {
 	    	console.log('Device platform: '+ device.platform );
 	    	console.log('Device uuid: '+ device.uuid );
 	    	console.log('Device version: '+ device.version );
+	    	
+	    	//native browser
+	    	console.log('Native browser: '+ navigator.userAgent );
+	    	var touchable = 'createTouch' in document;
+	    	console.log('ok with browser '+touchable);
+	    	
+	    	
 	    	
 	    	//build the device info into the menu. 
 	    	buildInfoDeviceMenu();
@@ -170,10 +181,7 @@ var app = {
 	        document.addEventListener("online", this.handleConnection, false);
 	    	document.addEventListener("offline", this.handleConnection, false);
 	    	
-	    	//var wrapper = document.getElementById('wrapper');
-	    	//var myScroll = new IScroll('#wrapper', { mouseWheel: true });
-	    	//wrapper.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-    	}
+	    }
     	catch (e) {
     		/*if the error happens during the app init, then it doesn't make sense go to error page, because the
     		 * app is not initialized. Then we set a notification and exit from app. 

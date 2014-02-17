@@ -20,6 +20,8 @@
 package es.uned.epardo30.bubble;
 
 import android.os.Bundle;
+import android.webkit.WebSettings;
+
 import org.apache.cordova.*;
 
 public class Bubble extends CordovaActivity 
@@ -29,6 +31,11 @@ public class Bubble extends CordovaActivity
     {
         super.onCreate(savedInstanceState);
         super.init();
+        
+        WebSettings settings = this.appView.getSettings();
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        
         // Set by <content src="index.html" /> in config.xml
         //super.loadUrl(Config.getStartUrl());
         super.loadUrl("file:///android_asset/www/index.html");

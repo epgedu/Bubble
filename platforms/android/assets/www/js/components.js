@@ -95,7 +95,7 @@ function buildSearchTraceBrief() {
 		
 			searchTraceBriefBubble.addEventListener('touchstart', function(e) {
 				console.log('go to tracer bubble');
-				event.preventDefault();
+				e.stopPropagation();
 				//hide the result layer
 				resultsDiv.className = 'results transition right';
 				//create a new content on result layer
@@ -107,42 +107,70 @@ function buildSearchTraceBrief() {
 		else { //if the app is executed on real device then multi touch (Spread)
 			console.log('executing on real device');
 			
-			searchTraceBriefBubble.addEventListener("touchstart", function(event) {
-	            if(event.targetTouches.length >1){
-	                spread = true;
+			
+			searchTraceBriefBubble.addEventListener('touchstart', function(event) {
+			
+				console.log('spread start touch');
+			    
+				//event.stopPropagation();
+				if(event.touches.length == 2){
+					//first finger down
+					idFirstFinger =  event.targetTouches[0].identifier;
 	                xFirstFinger = event.targetTouches[0].pageX;
+	                console.log('idFirstFinger: '+idFirstFinger+' xFirstFinger: '+xFirstFinger);
+	                //second finger down
+					idSecondFinger =  event.targetTouches[1].identifier;
 	                xSecondFinger = event.targetTouches[1].pageX;
-	                console.log('xFirstFinger: '+xFirstFinger);
-	                console.log('xSecondFinger: '+xSecondFinger);
-	            }               
-			},false);
-			searchTraceBriefBubble.addEventListener("touchmove", function(event) {
-	            if(event.targetTouches.length <= 1){
-	                spread = false;
-	                console.log('end of spread');
-	            }               
-			},false);
-			searchTraceBriefBubble.addEventListener("touchend", function(event) {
-	            if(event.targetTouches.length > 1 && spread){
-	            	console.log('xFirstFinger: '+xFirstFinger);
-	                console.log('xSecondFinger: '+xSecondFinger);
-	            	if(xFirstFinger - event.targetTouches[0].pageX > 5) {
-	            		if(event.targetTouches[1].pageX - xSecondFinger  > 5) {
-	            			console.log('spread gesture: go to tracer bubble');
-	        				event.preventDefault();
-	        				//hide the result layer
-	        				resultsDiv.className = 'results transition right';
-	        				//create a new content on result layer
-	        				//show the result layer
-	        				window.setTimeout("buildSearchTrace(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition
-		            	}
-	            	}
-	                spread = false;
-	            }               
-			},false);
+	                console.log('idSecondFinger: '+idSecondFinger+' xSecondFinger: '+xSecondFinger);
+	                console.log('start touch of spread');
+	                spread = true;
+	                pixelesTotal = 0;
+	            }
+				
+			}, false);
+			
+			searchTraceBriefBubble.addEventListener('touchmove', function(event) {
+				//event.stopPropagation();
+				event.preventDefault(); // No Scroll...
+			}, false);
+			
+			
+			searchTraceBriefBubble.addEventListener('touchend', function(event) {
+				console.log('spread end touch');
+			    //event.stopPropagation();
+			    if(spread) {
+					for(var i=0; i< event.changedTouches.length; i++ ) {
+						if(idFirstFinger == event.changedTouches[i].identifier){
+							console.log('lift first finger: '+idFirstFinger);
+							pixelesFirst = (xFirstFinger - event.changedTouches[i].pageX);
+							if(pixelesFirst < 0){pixelesFirst = pixelesFirst * (-1);}
+							pixelesTotal = parseInt(pixelesTotal) + parseInt(pixelesFirst);
+							console.log('pixeles first finger move: '+pixelesFirst+' added pixeles: '+pixelesTotal);
+							pixelesFirst = 0;
+						}
+						if(idSecondFinger == event.changedTouches[i].identifier){
+							console.log('lift second finger: '+idSecondFinger);
+							pixelesSecond = (xSecondFinger - event.changedTouches[i].pageX);
+							if(pixelesSecond < 0){pixelesSecond = pixelesSecond * (-1);}
+							pixelesTotal = pixelesTotal + pixelesSecond;
+							console.log('pixeles second finger move: '+pixelesSecond+' added pixeles: '+pixelesTotal);
+							pixelesSecond = 0;
+						}
+					}
+					if(event.touches.length == 0){ //0 fingers down
+						console.log('pixeles total: '+pixelesTotal);
+						if (pixelesTotal > 30){
+							console.log('abrimos bubble');
+							window.setTimeout("buildSearchTrace(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition
+							pixelesTotal = 0;
+							spread = false;
+						}
+					}
+				}
+			}, false);
+			
+			
 		}
-		
-		
 	}
 	
 	if(!isBuiltInitBubble) {
