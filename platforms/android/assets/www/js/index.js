@@ -112,11 +112,16 @@ var app = {
 	    	console.log('Device uuid: '+ device.uuid );
 	    	console.log('Device version: '+ device.version );
 	    	
-	    	//native browser
+	    	//info native browser
 	    	console.log('Native browser: '+ navigator.userAgent );
+	    	//checking if native browser support touch events
 	    	var touchable = 'createTouch' in document;
-	    	console.log('ok with browser '+touchable);
-	    	
+	    	console.log('touch events are supported by native browser '+touchable);
+	    	//show a message and exit from app
+	    	if(touchable==false) {
+	    		navigator.notification.alert("Sorry, the native browser doesn't support touch events... Please contanct the site administrator.", function() {navigator.app.exitApp();}, "Error");
+	    		app.vibrate();
+	    	}
 	    	
 	    	
 	    	//build the device info into the menu. 
