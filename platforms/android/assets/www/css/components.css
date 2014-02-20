@@ -11,6 +11,7 @@ This file contains the bubbles style.
 	width:15%;
 	height: 8%;
 	text-align: center;
+	z-index: 4;
 	
 	background-color: #FAFFB8;
 	-webkit-border-radius: 999px 999px 999px 999px;
@@ -38,11 +39,11 @@ This file contains the bubbles style.
 /*style search_trace_brief_bubble*/
 .search_trace_brief_bubble {
 	position:relative;
-	width:60%;
-	height: 30%;
+	width:35%;
+	height: 20%;
 	text-align: center;
 	
-	background: rgba(255, 185, 79, 0.5);
+	background: rgba(0, 255, 127, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
 	-o-border-radius: 999px 999px 999px 999px;
 	-moz-border-radius: 999px 999px 999px 999px;
@@ -77,10 +78,10 @@ This file contains the bubbles style.
 .list_brief_bubble {
 	position:relative;
 	width:80%;
-	height: 30%;
+	height: 50%;
 	text-align: center;
 	
-	background: rgba(136, 117, 255, 0.5);
+	background: rgba(238, 130, 238, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
 	-o-border-radius: 999px 999px 999px 999px;
 	-moz-border-radius: 999px 999px 999px 999px;
@@ -115,11 +116,11 @@ This file contains the bubbles style.
 
 .refine_brief_bubble {
 	position:relative;
-	width:60%;
-	height: 30%;
+	width:35%;
+	height: 20%;
 	text-align: center;
 	
-	background: rgba(94, 255, 196, 0.5);
+	background: rgba(255, 140, 0, 0.5);
 	-webkit-border-radius: 999px 999px 999px 999px;
 	-o-border-radius: 999px 999px 999px 999px;
 	-moz-border-radius: 999px 999px 999px 999px;
@@ -201,28 +202,14 @@ This file contains the bubbles style.
 	
 }
 
-.search_trace_bubble ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	text-align: center;
-}
 
 .li_bubble {
 	display: block;
 	float: left;
 	width: 150px;
 	height: 150px;
-	-webkit-border-radius: 999px 999px 999px 999px;
-	border-radius: 999px 999px 999px 999px;
-}
-
-.li_space {
-	display: block;
-	float: left;
-	height: 70px;
-	background-color: #fafafa;
+	z-index: 1;
+	position:relative;
 	
 	-webkit-border-radius: 999px 999px 999px 999px;
 	-o-border-radius: 999px 999px 999px 999px;
@@ -231,14 +218,25 @@ This file contains the bubbles style.
 	border-radius: 999px 999px 999px 999px;
 }
 
-.search_trace_bubble li:HOVER {
-	-moz-transform: scale(-0.5); 
-	-webkit-transform: scale(-0.5); 
-	-o-transform: scale(-0.5); 
-	-ms-transform: scale(-0.5); 
-	transform: scale(-0.5); 
+
+
+.li_space {
+	display: block;
 	
+	height: 200px;
+	width: 200px;
+	background: rgba(17,345,234,0.2);
+	z-index: -1;
+	position:absolute;
+	
+	-webkit-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
+	border-radius: 999px 999px 999px 999px;
 }
+
+
 
 .list_bubble {
 	position:relative;
@@ -255,6 +253,7 @@ This file contains the bubbles style.
 	border-radius: 999px 999px 999px 999px;
 }
 
+/*
 .refine_bubble {
 	position:relative;
 	width:100%;
@@ -269,7 +268,7 @@ This file contains the bubbles style.
 	-ms-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
 }
-
+*/
 .more_bubble {
 	position:relative;
 	width:100%;

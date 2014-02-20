@@ -33,7 +33,8 @@ refineBubble,
 errorScreen, 
 moreBubble, 
 moreBubbleLink, 
-searchBtn; 
+searchBtn,
+backBriefBubble; 
 
 //scroll on result_div
 var scrollResult;
@@ -63,6 +64,7 @@ isBuiltError,
 isBuiltMoreBubble, 
 refreshMoreBubble, 
 wasMoved,
+isBackBriefBubble,
 isBuiltScrollResult = false;
 
 var updateFrom = '';
@@ -74,6 +76,24 @@ var up_x = null;
 var xFirstFinger, xSecondFinger, idFirstFinger, idSecondFinger = null;
 var pixelesTotal, pixelesSecond, pixelesFirst = 0;
 var spread = false;
+
+//array colour bubbles TODO: llevarselo a otro javascript. styleBubble.js
+var colours = new Array();
+colours[0] = "#F08080"; //LightCoral
+colours[1] = "#E9967A"; //DarkSalmon 
+colours[2] = "#F08080"; //LightPink
+colours[3] = "#FF6347"; //Tomato
+colours[4] = "#FF8C00"; //DarkOrange
+colours[5] = "#FFFF00"; //Yellow
+colours[6] = "#FFE4B5"; //Moccasin
+colours[7] = "#EE82EE"; //Violet
+colours[8] = "#6A5ACD"; //SlateBlue
+colours[9] = "#7FFF00"; //Chartreuse
+colours[10] = "#00FF7F"; //SpringGreen
+colours[11] = "#66CDAA"; //MediumAquamarine
+colours[12] = "#40E0D0"; //Turquoise
+colours[13] = "#00BFFF"; //DeepSkyBlue
+
 
 var app = {
     // Application Constructor
@@ -123,7 +143,6 @@ var app = {
 	    		app.vibrate();
 	    	}
 	    	
-	    	
 	    	//build the device info into the menu. 
 	    	buildInfoDeviceMenu();
 	        
@@ -131,7 +150,6 @@ var app = {
 	        appDiv.addEventListener('touchstart', function(e) {
 	            // If there's exactly one finger inside this element
 	            var touch = e.targetTouches[0];
-	            //console.log('target: '+touch.target.id)
 	            console.log('start move on results');
 	        	down_x = touch.pageX;
 	        }, false);

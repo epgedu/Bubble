@@ -52,12 +52,12 @@ function pushSearch() {
 		//TODO:calling to server
 		
 		
-		updateFrom = 'IS'; //initial search . handle the workflow to avoid useless updates  
+		//updateFrom = 'IS'; //initial search . handle the workflow to avoid useless updates  TODO: remoce this variable
 		refreshDatas = true; // all datas has to be updated
 		refreshMoreBubble = true; //with refreshMoreBubble we handle that the "no related" data are got once. only with a new search therefore with a new root node
 		//build the results brief on appDiv
 		buildResultsBrief();
-		refreshDatas = false;
+		
 	}
 	catch(e) {
 		app.error(e, "Fatal error searching... Please contanct the site administrator.");
@@ -71,6 +71,7 @@ function buildResultsBrief() {
 	buildSearchTraceBrief();
 	buildListBrief();
 	buildRefineBrief();
+	if(refreshDatas){refreshDatas = false;}
 	
 	resultsDiv.className = 'results transition center';
 }
@@ -89,88 +90,17 @@ function buildSearchTraceBrief() {
 		searchTraceBriefBubble.style.marginLeft = "25%";
 		isBuiltTracerBriefBubble = true; //this object will not be built again
 		
+		console.log('executing on emulator');
 		
-		if (device.model == "sdk") { //if the app is executed on emulator then simple touch (tap)
-			console.log('executing on emulator');
-		
-			searchTraceBriefBubble.addEventListener('touchstart', function(e) {
-				console.log('go to tracer bubble');
-				e.stopPropagation();
-				//hide the result layer
-				resultsDiv.className = 'results transition right';
-				//create a new content on result layer
-				//show the result layer
-				window.setTimeout("buildSearchTrace(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition 
-				
-			}, false);	
-		}
-		else { //if the app is executed on real device then multi touch (Spread)
-			console.log('executing on real device');
-			
-			
-			searchTraceBriefBubble.addEventListener('touchstart', function(event) {
-			
-				console.log('spread start touch');
-			    
-				//event.stopPropagation();
-				if(event.touches.length == 2){
-					//first finger down
-					idFirstFinger =  event.targetTouches[0].identifier;
-	                xFirstFinger = event.targetTouches[0].pageX;
-	                console.log('idFirstFinger: '+idFirstFinger+' xFirstFinger: '+xFirstFinger);
-	                //second finger down
-					idSecondFinger =  event.targetTouches[1].identifier;
-	                xSecondFinger = event.targetTouches[1].pageX;
-	                console.log('idSecondFinger: '+idSecondFinger+' xSecondFinger: '+xSecondFinger);
-	                console.log('start touch of spread');
-	                spread = true;
-	                pixelesTotal = 0;
-	            }
-				
-			}, false);
-			
-			searchTraceBriefBubble.addEventListener('touchmove', function(event) {
-				//event.stopPropagation();
-				event.preventDefault(); // No Scroll...
-			}, false);
-			
-			
-			searchTraceBriefBubble.addEventListener('touchend', function(event) {
-				console.log('spread end touch');
-			    //event.stopPropagation();
-			    if(spread) {
-					for(var i=0; i< event.changedTouches.length; i++ ) {
-						if(idFirstFinger == event.changedTouches[i].identifier){
-							console.log('lift first finger: '+idFirstFinger);
-							pixelesFirst = (xFirstFinger - event.changedTouches[i].pageX);
-							if(pixelesFirst < 0){pixelesFirst = pixelesFirst * (-1);}
-							pixelesTotal = parseInt(pixelesTotal) + parseInt(pixelesFirst);
-							console.log('pixeles first finger move: '+pixelesFirst+' added pixeles: '+pixelesTotal);
-							pixelesFirst = 0;
-						}
-						if(idSecondFinger == event.changedTouches[i].identifier){
-							console.log('lift second finger: '+idSecondFinger);
-							pixelesSecond = (xSecondFinger - event.changedTouches[i].pageX);
-							if(pixelesSecond < 0){pixelesSecond = pixelesSecond * (-1);}
-							pixelesTotal = pixelesTotal + pixelesSecond;
-							console.log('pixeles second finger move: '+pixelesSecond+' added pixeles: '+pixelesTotal);
-							pixelesSecond = 0;
-						}
-					}
-					if(event.touches.length == 0){ //0 fingers down
-						console.log('pixeles total: '+pixelesTotal);
-						if (pixelesTotal > 30){
-							console.log('abrimos bubble');
-							window.setTimeout("buildSearchTrace(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition
-							pixelesTotal = 0;
-							spread = false;
-						}
-					}
-				}
-			}, false);
-			
-			
-		}
+		searchTraceBriefBubble.addEventListener('touchstart', function(e) {
+			console.log('go to tracer bubble');
+			e.stopPropagation();
+			//hide the result layer
+			resultsDiv.className = 'results transition right';
+			//create a new content on result layer
+			//show the result layer
+			window.setTimeout("buildSearchTrace(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition 
+		}, false);	
 	}
 	
 	if(!isBuiltInitBubble) {
@@ -193,11 +123,9 @@ function buildSearchTraceBrief() {
 	
 	//datas
 	if(refreshDatas) {
-		searchTraceBriefBubble.innerHTML = "You are here:";
-		if(updateFrom != 'TB') { //Trace Bubble
-			//if searchTraceBriefBubble has been refreshed then searchTraceBubble has to be refreshed
-			refreshDataTraceBubble = true;	
-		}
+		searchTraceBriefBubble.innerHTML = "Your filters";
+		
+		refreshDataTraceBubble = true;	
 	}
 	//show the built divs
 	resultsDiv.appendChild(searchTraceBriefBubble);
@@ -264,7 +192,7 @@ function buildRefineBrief() {
 		}, false);
 	}
 
-	if(!isBackBubble) {
+	if(!isBackBubble) { //Undo bubble
 		//bubble back
 		backBubble = document.createElement('div');
 		backBubble.className = 'bubble_yellow_small';
@@ -291,7 +219,7 @@ function buildRefineBrief() {
 		moreBubbleLink.className = 'more_link';
 		moreBubbleLink.style.right = "0px";
 		moreBubbleLink.style.bottom = "0px";
-		moreBubbleLink.innerHTML += 'More...';
+		moreBubbleLink.innerHTML += 'Not related nodes';
 		
 		moreBubbleLink.addEventListener('touchstart', function(e) {
 			console.log('click on more');
@@ -308,11 +236,11 @@ function buildRefineBrief() {
 	
 	//datas
 	if(refreshDatas) {
-		refineBriefBubble.innerHTML = "Subcategories:";
-		if(updateFrom != 'RB') {  
+		refineBriefBubble.innerHTML = "Add filters";
+		//if(updateFrom != 'RB') {  
 			//if refineBriefBubble has been refreshed and the refresh was not done from refine bubble then refineBubble has to be refreshed
 			refreshDataRefineBubble = true;	
-		}
+		//}
 	}
 	//show the built divs
 	resultsDiv.appendChild(refineBriefBubble);
@@ -333,36 +261,37 @@ function buildSearchTrace() {
 			searchTraceBubble.id = 'search_trace_bubble';
 			isBuiltTraceBubble = true; //this object will not be built again
 		
-			//events
-			if (device.model == "sdk") { //if the app is executed on emulator then simple touch (tap)
-				var isScrolling = false;
+			searchTraceBubble.addEventListener('touchmove', function(e) {
+				event.preventDefault();
+			}, false);	
+			
+			if(!isBackBriefBubble) { //back brief screen
+				backBriefBubble = document.createElement('div');
+				backBriefBubble.className = 'bubble_yellow_small';
+				backBriefBubble.style.left = "0px";
+				backBriefBubble.style.top = "0px";
+				backBriefBubble.innerHTML += 'Back';
 				
-				searchTraceBubble.addEventListener('touchmove', function(e) {
+				backBriefBubble.addEventListener('touchstart', function(e) {
+					console.log('click go to ppal results search trace without results');
 					event.preventDefault();
-					isScrolling = true;
-				}, false);	
-				
-				searchTraceBubble.addEventListener('touchend', function(e) {
-					if(!isScrolling) { //el user didn't use the iscroll and wants to close the bubble
-						console.log('click go to ppal results search trace without results');
-						event.preventDefault();
-						//hide the result layer
-						resultsDiv.className = 'results transition right';
-						//remove all divs from results div parent
-						while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-						//we have not created a new content because we did not refresh 
-						//show the result layer
-						window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
-					}
-					else {
-						isScrolling = false; //reset the value
-					}
-				}, false);	
-			}
-			else { //the app is executed on real device , catch the pinch event.
-				
+					//hide the result layer
+					resultsDiv.className = 'results transition right';
+					//remove all divs from results div parent
+					while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+					//we have not created a new content because we did not refresh 
+					//show the result layer
+					window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
+				}, false);
+				isBackBriefBubble = true;
 			}
 		}
+		
+		//remove all divs from results div parent
+		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+		//add the new bubble
+		resultsDiv.appendChild(searchTraceBubble);
+		resultsDiv.appendChild(backBriefBubble);
 		
 		//if we have to refresh the datas on this bubble
 		if(refreshDataTraceBubble) {
@@ -370,34 +299,40 @@ function buildSearchTrace() {
 			searchTraceBubble.innerHTML = "You are here: \n";
 			searchTraceBubble.innerHTML += "8 de 10";
 			
-			searchTraceBubble.innerHTML += "<ul>";
-			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
-			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 1</li>";
-			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
-			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
-			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 3</li>";
-			searchTraceBubble.innerHTML += "<li class='li_space' style='width:"+ (Math.floor(Math.random() * 80) + 30) +"px' >s</li>";
-			searchTraceBubble.innerHTML += "<li class='li_bubble' style='background-color:"+(Math.floor(Math.random()*16777215).toString(16))+"'>Pretty row 4</li>";
-			searchTraceBubble.innerHTML += "</ul>";
-								
+			//draw the bubble without content. Totally 10 bubbles
+			for (i=0; i<10; i++) {
+				var xy = getRandomPositionOnResultsDiv(50, 50); //TODO: access to css and get the weidth and height
+				searchTraceBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
+			}
+			//draw the bubbles with datas
+			for (i=0; i<10; i++) {
+				var left = '0%'; //position bubbles with content
+				if (i % 3 == 0) {left = '30%';}
+				if (i % 3 == 1) {left = '10%';}
+				if (i % 3 == 2) {left = '55%';}
+				var bubbleLink = document.createElement('li');
+				bubbleLink.className = 'li_bubble';
+				bubbleLink.style.marginLeft = left;
+				bubbleLink.style.background = getRandomColour();
+				bubbleLink.innerHTML = "><br><br><br>datos para este nodo";
+				
+				bubbleLink.addEventListener('touchstart', function(event) {
+					selectBubble();
+					event.stopPropagation();
+				}, false);
+				
+				searchTraceBubble.appendChild(bubbleLink);
+			}
+			
 			refreshDataTraceBubble = false;
 		}
 		
-		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-		//add the new bubble
-		resultsDiv.appendChild(searchTraceBubble);
 		
-		if(!isBuiltScrollResult){
-			console.log('building first and one time scroll result');
-			scrollResult = new IScroll('#results_div', { mouseWheel: true });
-			isBuiltScrollResult = true; 
-		}
-		else {
-			console.log('refresh scrollResult');
-			scrollResult.refresh();
-		}
+		console.log('building first and one time scroll result');
+		scrollResult = new IScroll('#results_div', { mouseWheel: true }); //DUPLICATE
+		isBuiltScrollResult = true; 
+		
+		
 		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	}
 	catch(e) {
@@ -453,37 +388,83 @@ function buildRefine() {
 		if(!isBuiltRefineBubble) {
 			
 			refineBubble = document.createElement('div');
-			refineBubble.id = 'refine_bubble';
-			refineBubble.className = 'refine_bubble';
+			refineBubble.id = 'refine_bubble'; 
+			refineBubble.className = 'search_trace_bubble';//TODO: UNIFICAR NOMBRE AL ESTILO!!!
 			isBuiltRefineBubble = true; //this object will not be built again
 		
-			refineBubble.addEventListener('touchstart', function(e) {
-				console.log('click go to ppal results from refine bubble without changes');
-				event.preventDefault();
-				//hide the result layer
-				resultsDiv.className = 'results transition right';
-				//remove all divs from results div parent
-				while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-				//we have not created a new content because we did not refresh from refine bubble 
-				//show the result layer
-				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
-			}, false);
-		
+				
+			refineBubble.addEventListener('touchmove', function(e) {
+				event.preventDefault(); //in order to avoid open the menu
+			}, false);	
 			
-			
-		}
-		
-		//if we have to refresh the datas on this bubble
-		if(refreshDataRefineBubble) {
-			refineBubble.innerHTML = "Subcategories: \n";
-			//include div with all bubbles 
-			refreshDataRefineBubble = false;
+			if(!isBackBriefBubble) { //back brief screen DUPLICADO
+				backBriefBubble = document.createElement('div');
+				backBriefBubble.className = 'bubble_yellow_small';
+				backBriefBubble.style.left = "0px";
+				backBriefBubble.style.top = "0px";
+				backBriefBubble.innerHTML += 'Back';
+				
+				backBriefBubble.addEventListener('touchstart', function(e) {
+					console.log('click go to ppal results search trace without results');
+					event.preventDefault();
+					//hide the result layer
+					resultsDiv.className = 'results transition right';
+					//remove all divs from results div parent
+					while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+					//we have not created a new content because we did not refresh 
+					//show the result layer
+					window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
+				}, false);
+				isBackBriefBubble = true;
+			}
 		}
 		
 		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-		//add the new bubble to results div
+		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild ); //TODO DUPLICADO hacer funcion para borrar e insertar divs dentro de otro
+		//add the new bubble
 		resultsDiv.appendChild(refineBubble);
+		resultsDiv.appendChild(backBriefBubble);
+		
+		//if we have to refresh the datas on this bubble
+		if(refreshDataRefineBubble) {
+			//create a div per results you're here
+			refineBubble.innerHTML = "Subcategories: \n"; 
+			
+			//draw the bubble without content. Totally 10 bubbles  DUPLICADO
+			for (i=0; i<10; i++) {
+				var xy = getRandomPositionOnResultsDiv(50, 50); //TODO: access to css and get the weidth and height
+				refineBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
+			}
+			
+			//draw the bubbles with datas //DUPLICADO
+			for (i=0; i<10; i++) {
+				var left = '0%'; //position bubbles with content
+				if (i % 3 == 0) {left = '30%';}
+				if (i % 3 == 1) {left = '10%';}
+				if (i % 3 == 2) {left = '55%';}
+				var bubbleLink = document.createElement('li');
+				bubbleLink.className = 'li_bubble';
+				bubbleLink.style.marginLeft = left;
+				bubbleLink.style.background = getRandomColour();
+				bubbleLink.innerHTML = "><br><br><br>datos para este nodo";
+				
+				bubbleLink.addEventListener('touchstart', function(event) {
+					selectBubble();
+					event.stopPropagation();
+				}, false);
+				
+				refineBubble.appendChild(bubbleLink);
+			}
+			
+			refreshDataRefineBubble = false;
+		}
+		
+		
+		console.log('building first and one time scroll result');
+		scrollResult = new IScroll('#results_div', { mouseWheel: true }); //duplicate
+		isBuiltScrollResult = true; 
+		
+		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 		
 	}
 	catch(e) {
@@ -500,32 +481,78 @@ function buildMore() {
 			
 			moreBubble = document.createElement('div');
 			moreBubble.id = 'more_bubble';
-			moreBubble.className = 'more_bubble';
+			moreBubble.className = 'search_trace_bubble';//TODO: UNIFICAR NOMBRE AL ESTILO!!!
 			isBuiltMoreBubble = true; //this object will not be built again
 			
-			moreBubble.addEventListener('touchstart', function(e) {
-				console.log('click go to ppal results from more bubble without changes');
-				event.preventDefault();
-				//hide the result layer
-				resultsDiv.className = 'results transition right';
-				//remove all divs from results div parent
-				while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-				//we have not created a new content because we did not refresh from refine bubble 
-				//show the result layer
-				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
-			}, false);
+			moreBubble.addEventListener('touchmove', function(e) {
+				event.preventDefault(); //in order to avoid open the menu
+			}, false);	
+			
+			if(!isBackBriefBubble) { //back brief screen DUPLICADO
+				backBriefBubble = document.createElement('div');
+				backBriefBubble.className = 'bubble_yellow_small';
+				backBriefBubble.style.left = "0px";
+				backBriefBubble.style.top = "0px";
+				backBriefBubble.innerHTML += 'Back';
+				
+				backBriefBubble.addEventListener('touchstart', function(e) {
+					console.log('click go to ppal results search trace without results');
+					event.preventDefault();
+					//hide the result layer
+					resultsDiv.className = 'results transition right';
+					//remove all divs from results div parent
+					while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+					//we have not created a new content because we did not refresh 
+					//show the result layer
+					window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
+				}, false);
+				isBackBriefBubble = true;
+			}
 		}
+		//remove all divs from results div parent
+		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild ); //TODO DUPLICADO hacer funcion para borrar e insertar divs dentro de otro
+		//add the new bubble
+		resultsDiv.appendChild(moreBubble);
+		resultsDiv.appendChild(backBriefBubble);
+		
 		//if we have to refresh the datas on this bubble
 		if(refreshMoreBubble) { //only if it is a new search we need to refresh the no related nodes. Always the direct descedents from root node. TODO: ???????
 			moreBubble.innerHTML = "try another way: \n";
 			//get datas	
+			//draw the bubble without content. Totally 10 bubbles  DUPLICADO
+			for (i=0; i<10; i++) {
+				var xy = getRandomPositionOnResultsDiv(50, 50); //TODO: ELIMINAR LOS PARAMETROS NO SON NECESARIOS
+				moreBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
+			}
+			
+			//draw the bubbles with datas //DUPLICADO
+			for (i=0; i<10; i++) {
+				var left = '0%'; //position bubbles with content
+				if (i % 3 == 0) {left = '30%';}
+				if (i % 3 == 1) {left = '10%';}
+				if (i % 3 == 2) {left = '55%';}
+				var bubbleLink = document.createElement('li');
+				bubbleLink.className = 'li_bubble';
+				bubbleLink.style.marginLeft = left;
+				bubbleLink.style.background = getRandomColour();
+				bubbleLink.innerHTML = "><br><br><br>datos para este nodo";
+				
+				bubbleLink.addEventListener('touchstart', function(event) {
+					selectBubbleNoRelated(); 
+					event.stopPropagation();
+				}, false);
+				
+				moreBubble.appendChild(bubbleLink);
+			}
 			refreshMoreBubble = false;
 		}
-		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
 		
-		//add the new bubble to results div
-		resultsDiv.appendChild(moreBubble);	
+		console.log('building first and one time scroll result');
+		scrollResult = new IScroll('#results_div', { mouseWheel: true }); //DUPLICATE
+		isBuiltScrollResult = true; 
+		
+		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+		
 	}
 	catch (e) {
 		app.error(e, "Fatal error building more bubble... Please contanct the site administrator.");
@@ -595,61 +622,67 @@ function buildError(msg) {
 	}
 }
 
-/*
-searchTraceBubble.innerHTML = "You are here: \n";
-			searchTraceBubble.innerHTML += "8 de 10";
-			searchTraceBubble.innerHTML += "<ul><li>Pretty row 1</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li>";
-			searchTraceBubble.innerHTML += "<li>Pretty row 2</li></ul>";
+/**
+ * get the random position from result-width, result-height and the size of resultDiv
+ * 
+ * min position left -20, max left position (resultsDiv.offsetWidth - 50)
+ * min position top -20, max top position ( (resultsDiv.offsetHeight * 3) - 20). *3 due to iscroll
+ * It means that the bubbles can be out left, top and rigth 20 px.
+ * 
+ * Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
+ * 
+ * @param heightElement
+ * @param widthElement
+ * @returns {Array}
+ */
+function getRandomPositionOnResultsDiv(heightElement, widthElement) {
+	var x = Math.floor(Math.random() * (resultsDiv.offsetWidth - 20) ) - 50;   
+	var y = Math.floor(Math.random() * ( (resultsDiv.offsetHeight * 3) - 20) ) - 20;
+	return [x,y];
+}
 
-*/
+/**
+ * get a random colour
+ * 
+ * @returns
+ */
+function getRandomColour() {
+	//instead to get a random colour, we gonna choose a colour among a list of colurs. That is due to sometime the random colour is too much dark and the user cannnot read the text. 
+	//so we got a number between 0 and 13 (we have an array with 14 colours)
+	//Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
+	return colours[ (Math.floor(Math.random() * (13 - 0 + 1)) )];
+}
+
+/**
+ * user clicked on a bubble to change the search
+ */
+function selectBubble() {
+	console.log ("select bubble");
+	console.log ("refresh datas");
+	
+	console.log ("come back to brief results");
+	//hide the result layer
+	resultsDiv.className = 'results transition right';
+	//remove all divs from results div parent
+	while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+	//we have not created a new content because we did not refresh 
+	//show the result layer
+	window.setTimeout("refreshDatas = true;buildResultsBrief();",1000); //1second is the spent time on the hide transition
+}
+
+/**
+ * user clicked on a bubble no related, then the user begin the search again 
+ */
+function selectBubbleNoRelated() {
+	console.log ("select bubble no related");
+	console.log ("come back to brief results");
+	
+	//hide the result layer
+	resultsDiv.className = 'results transition right';
+	//remove all divs from results div parent
+	while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+	//we have not created a new content because we did not refresh 
+	//show the result layer
+	window.setTimeout("pushSearch();",1000); //1second is the spent time on the hide transition
+}
+
