@@ -66,8 +66,8 @@
 				<input type="search" id="searchtxt" autocomplete="off" autofocus="autofocus" placeholder="search...">
 				<input type="button" id="searchbtn" onclick="javascript:pushSearch()">
 			</div>
-        	<div id="results_div">
-        	</div>
+        	<div id="results_div"></div>
+        	<div id="linksbar_div"></div>
         </div>
         
         
@@ -79,7 +79,13 @@
         <script type='application/javascript' src='js/fastclick/fastclick.js'></script>
         <script type='application/javascript' src='js/iscroll/iscroll-lite.js'></script>
         <script type="text/javascript">
-            try{app.initialize();}catch(e){console.error("Exception: "+e+", Message: FATAL Error initializing the app...Please contanct the site administrator");}
+            try{app.initialize();
+            	//uncomment in order to simulate on chrome simulator
+            	//buildCommonComponents();
+            	//buildLinksBar(true);
+            	//showLinksBar();
+			}
+            catch(e){console.error("Exception: "+e+", Message: FATAL Error initializing the app...Please contanct the site administrator");}
         </script>
     </body>
 </html>

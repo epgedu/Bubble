@@ -42,21 +42,163 @@ function closeMenu() {
 	}
 }
 
+function buildCommonComponents() {
+	try {
+		//build init button in order to start again
+		buildInitButton();
+		//built back to main list button
+		buildBackListButton();
+		//built undo button
+		buildUndoButton();
+		//build subcategories button
+		buildSubcategoriesButton();
+		//build intesion button
+		buildIntensionButton();
+		
+	}
+	catch(e) {
+		app.error(e, "Fatal error building common elements... Please contanct the site administrator.");
+	}
+}
+
+function showResults() {
+	resultsDiv.className = 'results transition center';
+}
+
+function hideResults() {
+	resultsDiv.className = 'results transition right';
+}
+
+function showSearchBar () {
+	searchbarDiv.className = 'page transition center';
+}
+
+function hideSearchBar() {
+	searchbarDiv.className = 'page transition up';
+}
+
+function showLinksBar() {
+	linksbarDiv.className = 'page transition center';
+}
+
+function hideLinksBar() {
+	linksbarDiv.className = 'page transition down';
+}
+
+function buildScroll() {
+	console.log('building scroll result');
+	scrollResult = new IScroll('#results_div', {dimensions:{x:30,y:60}, mouseWheel: true });
+	resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+}
+
+function buildInitButton() {
+	//bubble init
+	initButtonBubble = document.createElement('div');
+	initButtonBubble.className = 'link_init_bubble';
+	
+	initButtonBubble.addEventListener('touchstart', function(e) {
+		console.log('click on init');
+		event.preventDefault();
+		
+		goInit();
+		
+	}, false);
+}
+
+function buildBackListButton() {
+	backListButtonBubble = document.createElement('div');
+	backListButtonBubble.className = 'back_list_bubble';
+	
+	backListButtonBubble.addEventListener('touchstart', function(e) {
+		console.log('click go to ppal results');
+		event.preventDefault();
+		//hide the result layer
+		hideResults();
+		//remove all divs from results div parent
+		cleanResultDiv();
+		//hide de links bar
+		hideLinksBar();
+		//get the last results
+		//TODO
+		
+		//build the link bar, draw docs list and show link bar
+		window.setTimeout("buildLinksBar(true);drawListDocBubble();showLinksBar();",1000); //1second is the spent time on the hide transition
+		
+		
+	}, false);
+}
+
+function buildSubcategoriesButton() {
+	subcategoriesButtonBubble = document.createElement('div');
+	subcategoriesButtonBubble.className = 'link_subcategories_bubble';
+	
+	subcategoriesButtonBubble.addEventListener('touchstart', function(e) {
+		console.log('click go to subcategories results');
+		event.preventDefault();
+		//hide the result layer
+		hideResults();
+		//hide docs link bar
+		hideLinksBar();
+		//remove all divs from results div parent
+		cleanResultDiv();
+		//build the links var, draw subcategories and show link bar
+		window.setTimeout("buildLinksBar(false);drawRefineBubble();showLinksBar();",1000); //1second is the spent time on the hide transition
+		
+		
+	}, false);
+}
+
+function buildIntensionButton() {
+	intensionButtonBubble = document.createElement('div');
+	intensionButtonBubble.className = 'link_intension_bubble';
+	
+	intensionButtonBubble.addEventListener('touchstart', function(e) {
+		console.log('click go to intension results');
+		event.preventDefault();
+		//hide the result layer
+		hideResults();
+		//hide docs link bar
+		hideLinksBar();
+		//remove all divs from results div parent
+		cleanResultDiv();
+		//build the links var, draw subcategories and show link bar
+		window.setTimeout("buildLinksBar(false);drawSearchTraceBubble();showLinksBar();",1000); //1second is the spent time on the hide transition
+	}, false);
+}
+
+function buildUndoButton() {
+	//bubble back
+	undoButtonBubble = document.createElement('div');
+	undoButtonBubble.className = 'link_undo_bubble';
+	
+	undoButtonBubble.addEventListener('touchstart', function(e) {
+		console.log('click on undo');
+		event.preventDefault();
+		
+		app.error(backBubble, "ejemplo de mensaje de error")
+		
+	}, false);
+	//TODO: falta la funcion goBack()
+}
 
 //function is executes when user push search button 
 function pushSearch() {
 	try {
 		console.log("Init Search...");
 		//hide the search bar
-		searchbarDiv.className = 'page transition up';
+		hideSearchBar();
+		
+		
 		//TODO:calling to server
 		
+		buildListDocBubble();
+		drawListDocBubble();
+		buildLinksBar(true);
+		showLinksBar();
+		//after to show the screen , we build subcategories and intension
+		buildSubcategoriasIntension(); 
 		
-		//updateFrom = 'IS'; //initial search . handle the workflow to avoid useless updates  TODO: remoce this variable
-		refreshDatas = true; // all datas has to be updated
-		refreshMoreBubble = true; //with refreshMoreBubble we handle that the "no related" data are got once. only with a new search therefore with a new root node
-		//build the results brief on appDiv
-		buildResultsBrief();
+		
 		
 	}
 	catch(e) {
@@ -64,412 +206,273 @@ function pushSearch() {
 	}
 }	
 
-/* Building the first screen with results. 
- * It not needed to handle the errors. It an exception is raised then this will be caught by parent function (pushSearch function)
- */ 
-function buildResultsBrief() {
-	buildSearchTraceBrief();
-	buildListBrief();
-	buildRefineBrief();
-	if(refreshDatas){refreshDatas = false;}
-	
-	resultsDiv.className = 'results transition center';
-}
 
 
-/* Build the search trace brief bubble
- * It not needed to handle the errors. It an exception is raised then this will be caught by parent function (pushSearch function)
+/*
+ * Build list docs bubble div 
  */
-function buildSearchTraceBrief() {
-	
-	if(!isBuiltTracerBriefBubble) {
-		//bubble where the search trace is saved
-		searchTraceBriefBubble = document.createElement('div');
-		searchTraceBriefBubble.id = 'search_trace_brief_bubble';
-		searchTraceBriefBubble.className = 'search_trace_brief_bubble';
-		searchTraceBriefBubble.style.marginLeft = "25%";
-		isBuiltTracerBriefBubble = true; //this object will not be built again
-		
-		console.log('executing on emulator');
-		
-		searchTraceBriefBubble.addEventListener('touchstart', function(e) {
-			console.log('go to tracer bubble');
-			e.stopPropagation();
-			//hide the result layer
-			resultsDiv.className = 'results transition right';
-			//create a new content on result layer
-			//show the result layer
-			window.setTimeout("buildSearchTrace(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition 
-		}, false);	
-	}
-	
-	if(!isBuiltInitBubble) {
-		//bubble init
-		initBubble = document.createElement('div');
-		initBubble.className = 'bubble_yellow_small';
-		initBubble.style.left = "0px";
-		initBubble.style.top = "0px";
-		initBubble.innerHTML += 'Init';
-		
-		initBubble.addEventListener('touchstart', function(e) {
-			console.log('click on init');
-			event.preventDefault();
+function buildListDocBubble() {
+	try {
+		if(!isBuiltListDocsBubble) {
 			
-			goInit();
-		}, false);
+			listDocsBubble = document.createElement('div');
+			listDocsBubble.className = 'scroller_bubble';
+			listDocsBubble.id = 'scroller_list_docs_bubble';
+			isBuiltListDocsBubble = true; //this object will not be built again
+			
+			listDocsBubble.addEventListener('touchmove', function(e) {
+				event.preventDefault();
+			}, false);
+		}
 		
-		isBuiltInitBubble = true; //this object will not be built again
-	}
+		//refresh datas on list doc bubble
+		listDocsBubble.innerHTML = "Results: \n";
 	
-	//datas
-	if(refreshDatas) {
-		searchTraceBriefBubble.innerHTML = "Your filters";
-		
-		refreshDataTraceBubble = true;	
+		//draw the bubbles with datas //DUPLICADO
+		for (i=0; i<10; i++) {
+			var listLink = document.createElement('li');
+			listLink.className = 'li_list_doc';
+			
+			listLink.style.marginLeft = '5%';
+			listLink.style.marginRight = '5%';
+			listLink.innerHTML = "<b>titulo es el titulo del enlace ,que sera mas corto que este</b><br>";
+			listLink.innerHTML += "<i>descripcion, la descripcion puede que sea larga de cojones, entonces escribimos algo mas, para que ver como se comporta el estilo</i><br>";
+			listLink.innerHTML += "<a href='#'>www.as.com</a>";
+			
+			listLink.addEventListener('touchstart', function(event) {
+				
+				auxX = event.targetTouches[0].pageX;
+	    	}, false);
+			
+			listLink.addEventListener('touchend', function(event) {
+				if(auxX == event.changedTouches[0].pageX) { //if not moving
+					window.open('http://as.com/', '_blank', 'location=yes');
+				}
+			}, false);
+			listDocsBubble.appendChild(listLink);
+		}
+	
 	}
-	//show the built divs
-	resultsDiv.appendChild(searchTraceBriefBubble);
-	resultsDiv.appendChild(initBubble);
+	catch(e) {
+		app.error(e, "Fatal error building list docs bubble... Please contanct the site administrator.");
+	}
+}
+
+function drawListDocBubble() {
+	
+	//update the screen
+	addOnResults(listDocsBubble);
+	buildScroll();
+	//show results
+	showResults();
 	
 }
 
-/* Build the list brief bubble
- * It not needed to handle the errors. It an exception is raised then this will be caught by parent function (pushSearch function)
- */
-function buildListBrief() {
-	if(!isBuiltListBriefBubble) {
-		listBriefBubble = document.createElement('div');
-		listBriefBubble.id = 'list_brief_bubble';
-		listBriefBubble.className = 'list_brief_bubble';
-		listBriefBubble.style.marginLeft = "5%";
-		listBriefBubble.style.marginTop = "5%";
-		isBuiltListBriefBubble = true;
-		
-		listBriefBubble.addEventListener('touchstart', function(e) {
-			console.log('go to list bubble');
-			event.preventDefault();
-			//hide the result layer
-			resultsDiv.className = 'results transition right';
-			//create a new content on result layer
-			//show the result layer
-			window.setTimeout("buildList(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition 
-		}, false);
-		
-	}
-	//datas
-	if(refreshDatas) {
-		listBriefBubble.innerHTML = "Results:";
-		
-		//if listBriefBubble has been refreshed then listBubble has to be refreshed
-		refreshDataListBubble = true;
-	}
-	//show the built div
-	resultsDiv.appendChild(listBriefBubble);
-	
+//add on results div, the element passed by parameter
+function addOnResults(element) {
+	resultsDiv.appendChild(element);
+}
+//add on results div, the element passed by parameter
+function addOnLinkBar(element) {
+	linksbarDiv.appendChild(element);
 }
 
-/* Build the refine brief bubble
- * It not needed to handle the errors. It an exception is raised then this will be caught by parent function (pushSearch function)
- */
-function buildRefineBrief() {
-	if(!isBuiltRefineBriefBubble) {
-		refineBriefBubble = document.createElement('div');
-		refineBriefBubble.id = 'refine_brief_bubble';
-		refineBriefBubble.className = 'refine_brief_bubble';
-		refineBriefBubble.style.marginLeft = "8%";
-		refineBriefBubble.style.marginTop = "5%";
-		isBuiltRefineBriefBubble = true;
-		
-		refineBriefBubble.addEventListener('touchstart', function(e) {
-			console.log('go to refine bubble...');
-			event.preventDefault();
-			//hide the result layer
-			resultsDiv.className = 'results transition right';
-			//create a new content on result layer
-			//show the result layer
-			window.setTimeout("buildRefine(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition 
-			
-		}, false);
-	}
 
-	if(!isBackBubble) { //Undo bubble
-		//bubble back
-		backBubble = document.createElement('div');
-		backBubble.className = 'bubble_yellow_small';
-		backBubble.style.left = "0px";
-		backBubble.style.bottom = "0px";
-		backBubble.innerHTML += 'Undo';
-		
-		backBubble.addEventListener('touchstart', function(e) {
-			console.log('click on undo');
-			event.preventDefault();
-			
-			app.error(backBubble, "ejemplo de mensaje de error")
-		}, false);
-		//TODO: falta la funcion goBack()
-		
-		isBackBubble = true;
-	}
+//build the link bar 
+function buildLinksBar(isToDocsList) {
 	
-	
-	if(!isMoreLink) {
-		//bubble back
-		console.log('build the more bubble link div');
-		moreBubbleLink = document.createElement('div');
-		moreBubbleLink.className = 'more_link';
-		moreBubbleLink.style.right = "0px";
-		moreBubbleLink.style.bottom = "0px";
-		moreBubbleLink.innerHTML += 'Not related nodes';
-		
-		moreBubbleLink.addEventListener('touchstart', function(e) {
-			console.log('click on more');
-			event.preventDefault();
-			//hide the result layer
-			resultsDiv.className = 'results transition right';
-			//create a new content on result layer
-			
-			//show the result layer
-			window.setTimeout("buildMore(); resultsDiv.className = 'results transition center'",1000); //1second is the spent time on the hide transition 
-		}, false);
-		isMoreLink = true;
+	cleanLinksBar();
+	if(isToDocsList) {
+		linksbarDiv.style.width = "100%";
+		addOnLinkBar(intensionButtonBubble);
+		addOnLinkBar(subcategoriesButtonBubble);
+		addOnLinkBar(initButtonBubble);
+		addOnLinkBar(undoButtonBubble);
 	}
-	
-	//datas
-	if(refreshDatas) {
-		refineBriefBubble.innerHTML = "Add filters";
-		//if(updateFrom != 'RB') {  
-			//if refineBriefBubble has been refreshed and the refresh was not done from refine bubble then refineBubble has to be refreshed
-			refreshDataRefineBubble = true;	
-		//}
+	else {
+		//linksbarDiv.style.width = "25%";
+		//linksbarDiv.style.height = "0%";
+		addOnLinkBar(backListButtonBubble);
 	}
-	//show the built divs
-	resultsDiv.appendChild(refineBriefBubble);
-	resultsDiv.appendChild(moreBubbleLink);
-	resultsDiv.appendChild(backBubble);
 }
+
+//clean the list docs
+function cleanLinksBar() {
+	//remove all divs from results div parent
+	while ( linksbarDiv.firstChild ) linksbarDiv.removeChild( linksbarDiv.firstChild );
+}
+
+
+function buildSubcategoriasIntension(){
+	buildIntension();
+	buildSubcategories();
+}
+
 
 /*
  * Built the search trace bubble
  */
-function buildSearchTrace() {
+function buildIntension() {
 	try {
 		
 		if(!isBuiltTraceBubble) {
 			//the div searchTraceBubble is the scroller rol
 			searchTraceBubble = document.createElement('div');
-			searchTraceBubble.className = 'search_trace_bubble';
-			searchTraceBubble.id = 'search_trace_bubble';
+			searchTraceBubble.className = 'scroller_bubble';
+			searchTraceBubble.id = 'scroller_search_trace_bubble';
 			isBuiltTraceBubble = true; //this object will not be built again
 		
 			searchTraceBubble.addEventListener('touchmove', function(e) {
 				event.preventDefault();
 			}, false);	
 			
-			if(!isBackBriefBubble) { //back brief screen
-				backBriefBubble = document.createElement('div');
-				backBriefBubble.className = 'bubble_yellow_small';
-				backBriefBubble.style.left = "0px";
-				backBriefBubble.style.top = "0px";
-				backBriefBubble.innerHTML += 'Back';
-				
-				backBriefBubble.addEventListener('touchstart', function(e) {
-					console.log('click go to ppal results search trace without results');
-					event.preventDefault();
-					//hide the result layer
-					resultsDiv.className = 'results transition right';
-					//remove all divs from results div parent
-					while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-					//we have not created a new content because we did not refresh 
-					//show the result layer
-					window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
-				}, false);
-				isBackBriefBubble = true;
-			}
+			
 		}
 		
-		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-		//add the new bubble
-		resultsDiv.appendChild(searchTraceBubble);
-		resultsDiv.appendChild(backBriefBubble);
+		//refresh data on search trace bubble
+		searchTraceBubble.innerHTML = "You are here: \n";
+		searchTraceBubble.innerHTML += "8 de 10";
 		
-		//if we have to refresh the datas on this bubble
-		if(refreshDataTraceBubble) {
-			//create a div per results you're here
-			searchTraceBubble.innerHTML = "You are here: \n";
-			searchTraceBubble.innerHTML += "8 de 10";
+		//draw the bubble without content. Totally 10 bubbles
+		for (i=0; i<10; i++) {
+			var xy = getRandomPositionOnResultsDiv();
+			searchTraceBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
+		}
+		//draw the bubbles with datas //DUPLICADO
+		for (i=0; i<10; i++) {
+			var left = '0%'; //position bubbles with content
+			if (i % 3 == 0) {left = '30%';}
+			if (i % 3 == 1) {left = '10%';}
+			if (i % 3 == 2) {left = '55%';}
+			var bubbleLink = document.createElement('li');
+			bubbleLink.className = 'li_bubble';
+			bubbleLink.style.marginLeft = left;
+			bubbleLink.style.background = getRandomColour();
+			bubbleLink.innerHTML = "<br><br><br>datos para este nodo lololovhdvn bnc sdsd  dscjwn jnd jsd ";
 			
-			//draw the bubble without content. Totally 10 bubbles
-			for (i=0; i<10; i++) {
-				var xy = getRandomPositionOnResultsDiv(50, 50); //TODO: access to css and get the weidth and height
-				searchTraceBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
-			}
-			//draw the bubbles with datas
-			for (i=0; i<10; i++) {
-				var left = '0%'; //position bubbles with content
-				if (i % 3 == 0) {left = '30%';}
-				if (i % 3 == 1) {left = '10%';}
-				if (i % 3 == 2) {left = '55%';}
-				var bubbleLink = document.createElement('li');
-				bubbleLink.className = 'li_bubble';
-				bubbleLink.style.marginLeft = left;
-				bubbleLink.style.background = getRandomColour();
-				bubbleLink.innerHTML = "><br><br><br>datos para este nodo";
+			bubbleLink.addEventListener('touchstart', function(event) {
 				
-				bubbleLink.addEventListener('touchstart', function(event) {
-					selectBubble();
-					event.stopPropagation();
-				}, false);
-				
-				searchTraceBubble.appendChild(bubbleLink);
-			}
+				auxX = event.targetTouches[0].pageX;
+	    	}, false);
 			
-			refreshDataTraceBubble = false;
+			bubbleLink.addEventListener('touchend', function(event) {
+				event.stopPropagation();
+				if(auxX == event.changedTouches[0].pageX) { //if not moving
+					selectBubbleIntension(); 
+				}
+			}, false);
+			
+			searchTraceBubble.appendChild(bubbleLink);
 		}
 		
-		
-		console.log('building first and one time scroll result');
-		scrollResult = new IScroll('#results_div', { mouseWheel: true }); //DUPLICATE
-		isBuiltScrollResult = true; 
-		
-		
-		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	}
 	catch(e) {
 		app.error(e, "Fatal error building search trace bubble... Please contanct the site administrator.");
 	}
 }
 
-/*
- * Build list bubble div 
- */
-function buildList() {
-	try {
-		if(!isBuiltListBubble) {
-			
-			listBubble = document.createElement('div');
-			listBubble.id = 'list_bubble';
-			listBubble.className = 'list_bubble';
-			isBuiltListBubble = true; //this object will not be built again
-			
-			listBubble.addEventListener('touchstart', function(e) {
-				console.log('click go to ppal results from list bubble without chages');
-				event.preventDefault();
-				//hide the result layer
-				resultsDiv.className = 'results transition right';
-				//remove all divs from results div parent
-				while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-				//we have not created a new content because we did not refresh 
-				//show the result layer
-				window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition 
-			}, false);
-		}
-		//if we have to refresh the datas on this bubble
-		if(refreshDataListBubble) {
-			listBubble.innerHTML = "Results: \n";
-			//include all bubbles
-			refreshDataListBubble = false;
-		}
-		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-		//add the new bubble to results div
-		resultsDiv.appendChild(listBubble);	
-	}
-	catch(e) {
-		app.error(e, "Fatal error building list bubble... Please contanct the site administrator.");
-	}
+function selectBubbleIntension() {
+	//hide the result layer
+	hideResults();
+	//hide docs link bar
+	hideLinksBar();
+	//remove all divs from results div parent
+	cleanResultDiv();
+	
+	//get the new datas
+	//TODO
+
+	//refresh the components
+	buildListDocBubble();
+	//build the links var, draw docs list and show link bar
+	window.setTimeout("buildLinksBar(true);drawListDocBubble();showLinksBar();",1000); //1second is the spent time on the hide transition
+
+	//after to show the screen , we build subcategories and intension
+	buildSubcategoriasIntension(); 
+	
+	
+	
 }
 
 /**
  * Build refine bubble div
  */
-function buildRefine() {
+function buildSubcategories() {
 	try {
 		if(!isBuiltRefineBubble) {
 			
 			refineBubble = document.createElement('div');
-			refineBubble.id = 'refine_bubble'; 
-			refineBubble.className = 'search_trace_bubble';//TODO: UNIFICAR NOMBRE AL ESTILO!!!
+			refineBubble.id = 'scroller_refine_bubble'; 
+			refineBubble.className = 'scroller_bubble';
 			isBuiltRefineBubble = true; //this object will not be built again
-		
 				
 			refineBubble.addEventListener('touchmove', function(e) {
 				event.preventDefault(); //in order to avoid open the menu
 			}, false);	
-			
-			if(!isBackBriefBubble) { //back brief screen DUPLICADO
-				backBriefBubble = document.createElement('div');
-				backBriefBubble.className = 'bubble_yellow_small';
-				backBriefBubble.style.left = "0px";
-				backBriefBubble.style.top = "0px";
-				backBriefBubble.innerHTML += 'Back';
-				
-				backBriefBubble.addEventListener('touchstart', function(e) {
-					console.log('click go to ppal results search trace without results');
-					event.preventDefault();
-					//hide the result layer
-					resultsDiv.className = 'results transition right';
-					//remove all divs from results div parent
-					while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-					//we have not created a new content because we did not refresh 
-					//show the result layer
-					window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
-				}, false);
-				isBackBriefBubble = true;
-			}
 		}
 		
-		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild ); //TODO DUPLICADO hacer funcion para borrar e insertar divs dentro de otro
-		//add the new bubble
-		resultsDiv.appendChild(refineBubble);
-		resultsDiv.appendChild(backBriefBubble);
-		
-		//if we have to refresh the datas on this bubble
-		if(refreshDataRefineBubble) {
-			//create a div per results you're here
-			refineBubble.innerHTML = "Subcategories: \n"; 
+		//refresh data
+		refineBubble.innerHTML = "Subcategories: \n"; 
 			
-			//draw the bubble without content. Totally 10 bubbles  DUPLICADO
-			for (i=0; i<10; i++) {
-				var xy = getRandomPositionOnResultsDiv(50, 50); //TODO: access to css and get the weidth and height
-				refineBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
-			}
-			
-			//draw the bubbles with datas //DUPLICADO
-			for (i=0; i<10; i++) {
-				var left = '0%'; //position bubbles with content
-				if (i % 3 == 0) {left = '30%';}
-				if (i % 3 == 1) {left = '10%';}
-				if (i % 3 == 2) {left = '55%';}
-				var bubbleLink = document.createElement('li');
-				bubbleLink.className = 'li_bubble';
-				bubbleLink.style.marginLeft = left;
-				bubbleLink.style.background = getRandomColour();
-				bubbleLink.innerHTML = "><br><br><br>datos para este nodo";
-				
-				bubbleLink.addEventListener('touchstart', function(event) {
-					selectBubble();
-					event.stopPropagation();
-				}, false);
-				
-				refineBubble.appendChild(bubbleLink);
-			}
-			
-			refreshDataRefineBubble = false;
+		//draw the bubble without content. Totally 10 bubbles  DUPLICADO
+		for (i=0; i<10; i++) {
+			var xy = getRandomPositionOnResultsDiv();
+			refineBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
 		}
-		
-		
-		console.log('building first and one time scroll result');
-		scrollResult = new IScroll('#results_div', { mouseWheel: true }); //duplicate
-		isBuiltScrollResult = true; 
-		
-		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-		
+			
+		//draw the bubbles with datas //DUPLICADO
+		for (i=0; i<10; i++) {
+			var left = '0%'; //position bubbles with content
+			if (i % 3 == 0) {left = '30%';}
+			if (i % 3 == 1) {left = '10%';}
+			if (i % 3 == 2) {left = '55%';}
+			var bubbleLink = document.createElement('li');
+			bubbleLink.className = 'li_bubble';
+			bubbleLink.style.marginLeft = left;
+			bubbleLink.style.background = getRandomColour();
+			bubbleLink.innerHTML = "<br><br><br>datos para este nodo";
+				
+			bubbleLink.addEventListener('touchstart', function(event) {
+				auxX = event.targetTouches[0].pageX;
+	    	}, false);
+			
+			bubbleLink.addEventListener('touchend', function(event) {
+				event.stopPropagation();
+				if(auxX == event.changedTouches[0].pageX) { //if not moving
+					selectBubbleSubcategories(); 
+				}
+			}, false);
+			
+			refineBubble.appendChild(bubbleLink);
+		}
+		 
 	}
 	catch(e) {
 		app.error(e, "Fatal error building refine bubble... Please contanct the site administrator.");
 	}
+}
+
+function selectBubbleSubcategories() {
+	//hide the result layer
+	hideResults();
+	//hide docs link bar
+	hideLinksBar();
+	//remove all divs from results div parent
+	cleanResultDiv();
+	
+	//get the new datas
+	//TODO
+
+	//refresh the components
+	buildListDocBubble();
+	//build the links var, draw docs list and show link bar
+	window.setTimeout("buildLinksBar(true);drawListDocBubble();showLinksBar();",1000); //1second is the spent time on the hide transition
+
+	//after to show the screen , we build subcategories and intension
+	buildSubcategoriasIntension(); 
+	
+	
+	
 }
 
 /*
@@ -480,78 +483,25 @@ function buildMore() {
 		if(!isBuiltMoreBubble) {
 			
 			moreBubble = document.createElement('div');
-			moreBubble.id = 'more_bubble';
-			moreBubble.className = 'search_trace_bubble';//TODO: UNIFICAR NOMBRE AL ESTILO!!!
+			moreBubble.id = 'scroller_more_bubble';
+			moreBubble.className = 'scroller_bubble';
 			isBuiltMoreBubble = true; //this object will not be built again
 			
 			moreBubble.addEventListener('touchmove', function(e) {
 				event.preventDefault(); //in order to avoid open the menu
 			}, false);	
 			
-			if(!isBackBriefBubble) { //back brief screen DUPLICADO
-				backBriefBubble = document.createElement('div');
-				backBriefBubble.className = 'bubble_yellow_small';
-				backBriefBubble.style.left = "0px";
-				backBriefBubble.style.top = "0px";
-				backBriefBubble.innerHTML += 'Back';
-				
-				backBriefBubble.addEventListener('touchstart', function(e) {
-					console.log('click go to ppal results search trace without results');
-					event.preventDefault();
-					//hide the result layer
-					resultsDiv.className = 'results transition right';
-					//remove all divs from results div parent
-					while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-					//we have not created a new content because we did not refresh 
-					//show the result layer
-					window.setTimeout("buildResultsBrief();",1000); //1second is the spent time on the hide transition
-				}, false);
-				isBackBriefBubble = true;
-			}
 		}
-		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild ); //TODO DUPLICADO hacer funcion para borrar e insertar divs dentro de otro
-		//add the new bubble
-		resultsDiv.appendChild(moreBubble);
-		resultsDiv.appendChild(backBriefBubble);
 		
-		//if we have to refresh the datas on this bubble
-		if(refreshMoreBubble) { //only if it is a new search we need to refresh the no related nodes. Always the direct descedents from root node. TODO: ???????
-			moreBubble.innerHTML = "try another way: \n";
-			//get datas	
-			//draw the bubble without content. Totally 10 bubbles  DUPLICADO
-			for (i=0; i<10; i++) {
-				var xy = getRandomPositionOnResultsDiv(50, 50); //TODO: ELIMINAR LOS PARAMETROS NO SON NECESARIOS
-				moreBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
-			}
+		//refresh data
+		moreBubble.innerHTML = "try another way: \n";
+		//get datas	
+		//draw the bubble without content. Totally 10 bubbles  DUPLICADO
+		for (i=0; i<10; i++) {
+			var xy = getRandomPositionOnResultsDiv();
+			moreBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
+		}
 			
-			//draw the bubbles with datas //DUPLICADO
-			for (i=0; i<10; i++) {
-				var left = '0%'; //position bubbles with content
-				if (i % 3 == 0) {left = '30%';}
-				if (i % 3 == 1) {left = '10%';}
-				if (i % 3 == 2) {left = '55%';}
-				var bubbleLink = document.createElement('li');
-				bubbleLink.className = 'li_bubble';
-				bubbleLink.style.marginLeft = left;
-				bubbleLink.style.background = getRandomColour();
-				bubbleLink.innerHTML = "><br><br><br>datos para este nodo";
-				
-				bubbleLink.addEventListener('touchstart', function(event) {
-					selectBubbleNoRelated(); 
-					event.stopPropagation();
-				}, false);
-				
-				moreBubble.appendChild(bubbleLink);
-			}
-			refreshMoreBubble = false;
-		}
-		
-		console.log('building first and one time scroll result');
-		scrollResult = new IScroll('#results_div', { mouseWheel: true }); //DUPLICATE
-		isBuiltScrollResult = true; 
-		
-		resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 		
 	}
 	catch (e) {
@@ -564,10 +514,11 @@ function buildMore() {
  */
 function goInit() {
 	try {
-		resultsDiv.className = 'results transition right';
+		hideResults();
+		hideLinksBar();
 		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-		searchbarDiv.className = 'page transition center';	
+		cleanResultDiv();
+		showSearchBar();
 	}
 	catch (e) {
 		app.error(e, "Fatal error going to init screen... Please contanct the site administrator.");
@@ -586,34 +537,37 @@ function buildError(msg) {
 			errorScreen = document.createElement('div');
 			errorScreen.id = 'error';
 			errorScreen.className = 'error';
-		
+			msgError = document.createElement('p');
+			msgError.id = 'errormsg';
+			msgError.className = 'msg_error';
+			errorScreen.appendChild(msgError);
 			//msg error
-			errorScreen.innerHTML = "<p style=\"margin-top: 85%;\" id='errormsg' ></p>";
+			//errorScreen.innerHTML = "<p style=\"margin-top: 85%;\" id='errormsg' ></p>";
 		
 			//buttom init from error screen
-			var initError = document.createElement('div');
-			initError.id = 'bubble_gray';
-			initError.className = 'bubble_gray';
-			initError.style.marginLeft = "35%";
-			initError.style.marginTop = "10%";
-			initError.innerHTML += 'Exit';
+			initError = document.createElement('div');
+			initError.id = 'error_bubble';
+			initError.className = 'link_error_bubble';
 			errorScreen.appendChild(initError);
 		
 			initError.addEventListener('touchstart', function(e) {
 				console.log('click on init error');
 				goInit();
-				//remove the error from results div
-				resultsDiv.removeChild(errorScreen);
 			}, false);
 			
 			isBuiltError = true;
 		}	
-		
+		//hide results
+		hideResults();
 		//remove all divs from results div parent
-		while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+		cleanResultDiv();
+		//hide the links bar
+		hideLinksBar();
 		//add the error div to results
-		resultsDiv.appendChild(errorScreen);
+		addOnResults(errorScreen);
 		document.getElementById('errormsg').innerHTML = "Sorry, we had some problems...<br/>"+msg;
+		//show results
+		showResults();
 	}
 	catch(e) {
 		console.error("Exception: "+e+", Message: FATAL Error building error bubble div");
@@ -635,7 +589,7 @@ function buildError(msg) {
  * @param widthElement
  * @returns {Array}
  */
-function getRandomPositionOnResultsDiv(heightElement, widthElement) {
+function getRandomPositionOnResultsDiv() {
 	var x = Math.floor(Math.random() * (resultsDiv.offsetWidth - 20) ) - 50;   
 	var y = Math.floor(Math.random() * ( (resultsDiv.offsetHeight * 3) - 20) ) - 20;
 	return [x,y];
@@ -686,3 +640,29 @@ function selectBubbleNoRelated() {
 	window.setTimeout("pushSearch();",1000); //1second is the spent time on the hide transition
 }
 
+function cleanResultDiv() {
+	//remove all divs from results div parent
+	while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
+}
+
+function drawSearchTraceBubble() {
+	
+	//update the screen
+	addOnResults(searchTraceBubble);
+	buildScroll();
+	showResults();
+}
+
+function drawRefineBubble() {
+	//update the screen
+	addOnResults(refineBubble);
+	buildScroll();
+	showResults();
+}
+
+function drawMoreBubble() {
+	//update the screen
+	addOnResults(moreBubble);
+	buildScroll();
+	showResults();
+}

@@ -19,7 +19,8 @@
 * 
 
 /*
-	This file contains the main app style and animations
+	This file contains the main app style and animations.
+	Note: Text size depend on its owner bubble. It's not depend on size screen
 */
 
 body {
@@ -34,7 +35,10 @@ body {
     margin:0;
     border:0;
     position: fixed;
+    overflow: hidden; /* this is important to prevent the whole page to bounce */
 }
+
+
 
 /***************************STYLE TO PAGES*****************************/
 
@@ -45,32 +49,56 @@ body {
 	left: 0; 
 	width: 100%; 
 	height: 100%; 
-	-webkit-transform: translate3d(0, 0, 0); 
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-o-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0); 
 	transform: translate3d(0, 0, 0); 
 }
 
 /*Position central page*/
 .page.center { 
-	-webkit-transform: translate3d(0, 0, 0); 
+	-webkit-transform: translate3d(0, 0, 0); /* Safari and Chrome */
+	-moz-transform: translate3d(0, 0, 0); /* Firefox */
+	-o-transform: translate3d(0, 0, 0);   /* Opera */
+	-ms-transform: translate3d(0, 0, 0); /* IE 9 */
 	transform: translate3d(0, 0, 0);
 } 
  
  /*Position right page*/
 .page.right { 
-	-webkit-transform: translate3d(80%, 0, 0); 
-	transform: translate3d(80%, 0, 0); 
+	-webkit-transform: translate3d(80%, 0, 0); /* Safari and Chrome */
+	-moz-transform: translate3d(80%, 0, 0); /* Firefox */
+	-o-transform: translate3d(80%, 0, 0);   /* Opera */
+	-ms-transform: translate3d(80%, 0, 0); /* IE 9 */
+	transform: translate3d(80%, 0, 0);
 }
 
  /*Position up page*/
 .page.up { 
-	-webkit-transform: translate3d(0, -100%, 0); 
-	transform: translate3d(0, -100%, 0); 
+	-webkit-transform: translate3d(0, -100%, 0); /* Safari and Chrome */
+	-moz-transform: translate3d(0, -100%, 0); /* Firefox */
+	-o-transform: translate3d(0, -100%, 0);   /* Opera */
+	-ms-transform: translate3d(0, -100%, 0); /* IE 9 */
+	transform: translate3d(0, -100%, 0);
+}
+
+/*Position down page*/
+.page.down { 
+	-webkit-transform: translate3d(0, 100%, 0); /* Safari and Chrome */
+	-moz-transform: translate3d(0, 100%, 0); /* Firefox */
+	-o-transform: translate3d(0, 100%, 0);   /* Opera */
+	-ms-transform: translate3d(0, 100%, 0); /* IE 9 */
+	transform: translate3d(0, 100%, 0);
 }
 
 /*Page transition animation*/
 .page.transition { 
-	-webkit-transition-duration: 0.5s; 
-	transition-duration: 0.5s; 
+	-webkit-transition-duration: 0.5s;
+	-moz-transition-duration: 0.5s;
+	-o-transition-duration: 0.5s; 
+	-ms-transition-duration: 0.5s;
+	transition-duration: 0.5s;
 }
 
 
@@ -85,6 +113,10 @@ body {
 	/* gradient background efect (http://www.css3.me) */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#a3f5ff', endColorstr = '#967557');
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#a3f5ff', endColorstr = '#967557')";
+	-webkit-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#a3f5ff', endColorstr = '#967557');
+	-o-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#a3f5ff', endColorstr = '#967557');
+	-moz-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#a3f5ff', endColorstr = '#967557');
+	
 	background-image: -moz-linear-gradient(top, #a3f5ff, #967557);
 	background-image: -ms-linear-gradient(top, #a3f5ff, #967557);
 	background-image: -o-linear-gradient(top, #a3f5ff, #967557);
@@ -104,16 +136,30 @@ body {
 	text-align: center;
 }
 
-#results_div {
+#results_div { /*wrapper div*/
 	top: 0px;
 	left: 0px;
 	width:100%;
-	height: 100%;
-	text-align: center;
+	height: 85%;
 	
 	background: rgba(242, 255, 255, 0.3); 
 	-webkit-border-radius: 999px 999px 999px 999px;
+	-ms-border-radius: 999px 999px 999px 999px;
+	-o-border-radius: 999px 999px 999px 999px;
+	-moz-border-radius: 999px 999px 999px 999px;
 	border-radius: 999px 999px 999px 999px;
+}
+
+#linksbar_div {
+	display:block;
+	top: 85%;
+	left: 0px;
+	width:100%;
+	height: 15%;
+	
+	background: blue; 
+	
+
 }
 
 
@@ -138,8 +184,11 @@ body {
 
 /*Page transition animation*/
 .results.transition { 
-	-webkit-transition-duration: 0.5s; 
-	transition-duration: 0.5s; 
+	-webkit-transition-duration: 0.5s;
+	-moz-transition-duration: 0.5s;
+	-o-transition-duration: 0.5s; 
+	-ms-transition-duration: 0.5s;
+	transition-duration: 0.5s;
 }
 
 
@@ -163,6 +212,9 @@ body {
 	border-radius: 100px;
 	-moz-border-radius: 10dsf0px;
 	-webkit-border-radius: 100px;
+	-o-border-radius: 100px;
+	-ms-border-radius: 100px;
+	
 	outline: none;
 	background-color: #8abaee;
 	width: 75%;
@@ -173,26 +225,30 @@ body {
 /*default style searchbtn when the screen at least 426 × 320  ldpi*/ 
 #searchbtn{
 	width: 40px; height: 40px;
-	border-radius: 100px; -moz-border-radius: 10dsf0px; -webkit-border-radius: 100px;
+	border-radius: 100px;
+	-moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
+	-o-border-radius: 100px;
+	-ms-border-radius: 100px;
+	
 	background-image: url(../img/small/searchimg.png);
 	background-repeat: no-repeat;
 }
 
 
 
-
-
-
-
 /* Setting styles to different size screens*/
-
-/* TODO: TENEMOS QUE AJUSTAR EL TAMANO DEL TEXTO EN FUNCION DE LA RESOLUCION DEL DISPOSITIVO*/
 
 /* Landscape layout at least 470 × 320 mdpi*/
 @media screen and (min-width:470px) and (min-height:320px) {
     #searchbtn {
         width: 50px; height: 50px; 
-		border-radius: 100px; -moz-border-radius: 10dsf0px; -webkit-border-radius: 100px;
+		border-radius: 100px;
+		-moz-border-radius: 100px;
+		-webkit-border-radius: 100px;
+		-o-border-radius: 100px;
+		-ms-border-radius: 100px;
+		
 		background-image: url(../img/medium/searchimg.png);
 		background-repeat: no-repeat;
     }
@@ -211,7 +267,12 @@ body {
 @media screen and (min-width:640px) and (min-height:840px) {
     #searchbtn {
         width: 60px; height: 60px; 
-		border-radius: 100px; -moz-border-radius: 10dsf0px; -webkit-border-radius: 100px;
+		border-radius: 100px;
+		-moz-border-radius: 10dsf0px;
+		-webkit-border-radius: 100px;
+		-o-border-radius: 100px;
+		-ms-border-radius: 100px;
+		
 		background-image: url(../img/large/searchimg.png);
 		background-repeat: no-repeat;
     }
@@ -230,7 +291,12 @@ body {
 @media screen and (min-width:960px) and (min-height:720) {
     #searchbtn {
         width: 90px; height: 90px;  
-		border-radius: 100px; -moz-border-radius: 10dsf0px; -webkit-border-radius: 100px;
+		border-radius: 100px;
+		-moz-border-radius: 10dsf0px;
+		-webkit-border-radius: 100px;
+		-o-border-radius: 100px;
+		-ms-border-radius: 100px;
+		
 		background-image: url(../img/xlarge/searchimg.png);
 		background-repeat: no-repeat;
     }
@@ -250,31 +316,50 @@ body {
 @-webkit-keyframes wobble-skew-init {
   16.65% {
     -webkit-transform: skew(-24deg);
+    -o-transform: skew(-24deg);
+    -ms-transform: skew(-24deg);
+    -moz-transform: skew(-24deg);
     transform: skew(-24deg);
+    
   }
 
   33.3% {
     -webkit-transform: skew(20deg);
+    -o-transform: skew(20deg);
+    -ms-transform: skew(20deg);
+    -moz-transform: skew(20deg);
     transform: skew(20deg);
   }
 
   49.95% {
     -webkit-transform: skew(-24deg);
+    -o-transform: skew(-24deg);
+    -ms-transform: skew(-24deg);
+    -moz-transform: skew(-24deg);
     transform: skew(-24deg);
   }
 
   66.6% {
     -webkit-transform: skew(20deg);
+    -o-transform: skew(20deg);
+    -ms-transform: skew(20deg);
+    -moz-transform: skew(20deg);
     transform: skew(20deg);
   }
 
   83.25% {
     -webkit-transform: skew(-20deg);
+    -o-transform: skew(-20deg);
+    -ms-transform: skew(-20deg);
+    -moz-transform: skew(-20deg);
     transform: skew(-20deg);
   }
 
-  100% {
+  100.0% {
     -webkit-transform: skew(0);
+    -o-transform: skew(0);
+    -ms-transform: skew(0);
+    -moz-transform: skew(0);
     transform: skew(0);
   }
 }
@@ -283,36 +368,48 @@ body {
   16.65% {
     -webkit-transform: skew(-24deg);
     -ms-transform: skew(-24deg);
+    -o-transform: skew(-24deg);
+    -moz-transform: skew(-24deg);
     transform: skew(-24deg);
   }
 
   33.3% {
     -webkit-transform: skew(20deg);
     -ms-transform: skew(20deg);
+    -o-transform: skew(20deg);
+    -moz-transform: skew(20deg);
     transform: skew(20deg);
   }
 
   49.95% {
     -webkit-transform: skew(-12deg);
     -ms-transform: skew(-12deg);
+    -o-transform: skew(-12deg);
+    -moz-transform: skew(-12deg);
     transform: skew(-12deg);
   }
 
   66.6% {
     -webkit-transform: skew(8deg);
     -ms-transform: skew(8deg);
+    -o-transform: skew(8deg);
+    -moz-transform: skew(8deg);
     transform: skew(8deg);
   }
 
   83.25% {
     -webkit-transform: skew(-4deg);
     -ms-transform: skew(-4deg);
+    -o-transform: skew(-4deg);
+    -moz-transform: skew(-4deg);
     transform: skew(-4deg);
   }
 
-  100% {
+  100.0% {
     -webkit-transform: skew(0);
     -ms-transform: skew(0);
+    -o-transform: skew(0);
+    -moz-transform: skew(0);
     transform: skew(0);
   }
 }
