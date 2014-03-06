@@ -17,35 +17,27 @@
  * under the License.
  */
 
+/*
+ * This file contains the global variables declarations, initialization app process and declares the main events 
+ */
+
 // global variables (div's)
 var appDiv, 
 searchbarDiv, 
 resultsDiv, 
-searchTraceBriefBubble, 
 linksbarDiv,
-linkSearchTraceBubble,
-linkRefineBubble,
-linkMoreBubble,
-initBubble, 
-undoButtonBubble,
-listBriefBubble, 
-refineBriefBubble, 
-backBubble,
-backListButtonBubble,
-backListBubble,
-moreBubble, 
-searchTraceBubble, 
-listDocsBubble, 
-refineBubble, 
-errorScreen, 
-moreBubble, 
-moreBubbleLink, 
 searchBtn,
+undoButtonBubble,
+backListButtonBubble,
+listDocsBubble, 
+errorScreen, 
 initButtonBubble,
 subcategoriesButtonBubble,
 intensionButtonBubble,
 msgError,
-initError; 
+initError,
+subcategoriesBubble,
+intensionBubble; 
 
 //scroll on result_div
 var scrollResult;
@@ -55,76 +47,36 @@ appDiv = document.getElementById("app_div");
 searchbarDiv = document.getElementById("searchbar_div");
 resultsDiv = document.getElementById("results_div");
 menuDiv = document.getElementById("menu_div");
-searchBtn = document.getElementById("searchbtn");
 linksbarDiv = document.getElementById("linksbar_div");
-linkSearchTraceBubble = document.getElementById("link_search_trace_bubble");
-linkRefineBubble = document.getElementById("link_refine_bubble");
-linkMoreBubble = document.getElementById("link_more_bubble");
+searchBtn = document.getElementById("searchbtn");
 
-//global variables (load control)
-var refreshDatas, 
-isUndoBubble, 
-isBuiltRefineBriefBubble, 
-isBuiltListBriefBubble, 
-isBuiltInitBubble, 
-isBuiltTracerBriefBubble,  
-isMoreLink, 
-isBuiltTraceBubble, 
-refreshDataTraceBubble, 
-isBuiltListDocsBubble, 
-refreshDataListBubble, 
-isBuiltRefineBubble, 
-refreshDataRefineBubble, 
-isBuiltError, 
-isBuiltMoreBubble, 
-refreshMoreBubble, 
-wasMoved,
-isBackBubble,
-isBackListBubble,
-isBuiltScrollResult = false;
+//global variables (load control). The component are built once, the first load of application
+var isBuiltListDocsBubble,
+isBuiltIntensionBubble,
+isBuiltSubcategoriesBubble,
+isBuiltErrorBubble  = false;
 
-var updateFrom = '';
-
-//var to save the position and to handle the swipe event
+//var to save the position and state of event and to handle the swipe event
 var down_x = null;
 var up_x = null;
-//var to save the position and to handle the spread event
-var xFirstFinger, xSecondFinger, idFirstFinger, idSecondFinger = null;
-var pixelesTotal, pixelesSecond, pixelesFirst = 0;
-var spread = false;
+var wasMoved = false;
+
 //var to split the iscroll moving and select bubble
 var auxX;
-
-//array colour bubbles TODO: llevarselo a otro javascript. styleBubble.js
-var colours = new Array();
-colours[0] = "#F08080"; //LightCoral
-colours[1] = "#E9967A"; //DarkSalmon 
-colours[2] = "#F08080"; //LightPink
-colours[3] = "#FF6347"; //Tomato
-colours[4] = "#FF8C00"; //DarkOrange
-colours[5] = "#FFFF00"; //Yellow
-colours[6] = "#FFE4B5"; //Moccasin
-colours[7] = "#EE82EE"; //Violet
-colours[8] = "#6A5ACD"; //SlateBlue
-colours[9] = "#7FFF00"; //Chartreuse
-colours[10] = "#00FF7F"; //SpringGreen
-colours[11] = "#66CDAA"; //MediumAquamarine
-colours[12] = "#40E0D0"; //Turquoise
-colours[13] = "#00BFFF"; //DeepSkyBlue
-
 
 var app = {
     // Application Constructor
     initialize: function() {
+    	console.log("Initializing bubble...");
+    	
     	// Initial state showing the body on central page
         state="body";
-        //inital positions div's
         
+        // initial positions div's
         appDiv.className = 'page center';
         menuDiv.className = 'page center';
         resultsDiv.className = 'results right';
         linksbarDiv.className = 'page down';
-        
         
         this.bindEvents();
     },
@@ -155,6 +107,7 @@ var app = {
 	    	
 	    	//info native browser
 	    	console.log('Native browser: '+ navigator.userAgent );
+	    	
 	    	//checking if native browser support touch events
 	    	var touchable = 'createTouch' in document;
 	    	console.log('touch events are supported by native browser '+touchable);
@@ -163,31 +116,31 @@ var app = {
 	    		app.alertErrorAndExit(null, "Sorry, the native browser doesn't support touch events... Please contanct the site administrator.");
 	    	}
 	    	
-    	
-	    	//build the device info into the menu. 
+    	   	//build the device info into the menu. 
 	    	buildInfoDeviceMenu();
 	    	
 	    	//build the common components like back list bottom , undo bottom
 	        buildCommonComponents();
 	    	
+	        console.log("Setting Swipe events...");
 	        //handle swipe event on results layer in order to open the menu
 	        appDiv.addEventListener('touchstart', function(e) {
 	        	// If there's exactly one finger inside this element
 	            var touch = e.targetTouches[0];
-	            console.log('start move on results');
+	            console.log('start moving event on app div');
 	        	down_x = touch.pageX;
 	        }, false);
 	        
 	        appDiv.addEventListener('touchmove', function(e) {
-	        	console.log('moving on results');
 	        	e.preventDefault();
+	        	console.log('keep moving event on app div');
 	        	var touch = e.targetTouches[0];
 	    		up_x = touch.pageX;
 	    		wasMoved = true;
 	      	}, false);
 	        
 	        appDiv.addEventListener('touchend', function(e) {
-	        	console.log('end move on results');
+	        	console.log('finish moving event on app div');
 	    		if(wasMoved) {
 	    			openMenu();
 	    			wasMoved = false;
@@ -198,20 +151,20 @@ var app = {
 	        //handle swipe event in order to close the menu
 	        menuDiv.addEventListener('touchstart', function(e) {
 	            var touch = e.targetTouches[0];
-	            console.log('start move on menu');
+	            console.log('start moving event on menu div');
 	        	down_x = touch.pageX;
 	        }, false);
 	        
 	        menuDiv.addEventListener('touchmove', function(e) {
-	        	console.log('moving on menu');
 	        	e.preventDefault();
+	        	console.log('keep moving event on menu div');
 	        	var touch = e.targetTouches[0];
 	    		up_x = touch.pageX;
 	    		wasMoved = true;
 	        }, false);
 	        
 	        menuDiv.addEventListener('touchend', function(e) {
-	        	console.log('end move on menu');
+	        	console.log('finish moving event on menu div');
 	        	if(wasMoved) {
 	        		closeMenu();
 	        		wasMoved = false;
@@ -220,6 +173,7 @@ var app = {
 	        
 	                
 	        //check the internet connection
+	        console.log("Connection stage initialization..."+navigator.network.connection.type);
 	        if(navigator.network.connection.type == Connection.NONE) {
 	        	app.error(null, "Sorry, you are offline...");
 	    		//disable search buttom
@@ -246,12 +200,15 @@ var app = {
     
     //internet conection 
     handleConnection: function getNotificationConnection(e) {
+    	console.log("handleConnection control was invoqued...");
     	try {
 	    	if(e.type == "offline") {
+	    		console.log("device is offline...")
 	    		app.error(null, "Sorry, you are offline...");
 	    		//disable search buttom
 	        	searchBtn.disabled = true;
 	    	} else {
+	    		console.log("device is online...")
 	    		app.info(null, "Woot, you are back online.");
 	    		//able search buttom
 	    		searchBtn.disabled = false;
@@ -262,7 +219,7 @@ var app = {
     	}
     },
     
-    
+    //vibrate device
     vibrate: function () {
     	try {
     		//TODO: Establecer el segundo de vibracion como una propiedad externa
@@ -274,7 +231,7 @@ var app = {
     },
     
     
-    //handle errors
+    //handle errors and rise the error screen
     error: function(e, msg){
         //show on div results, the error image and the text
     	buildError(msg);
@@ -291,6 +248,7 @@ var app = {
     	console.log(msg);
 	},
     
+	//show a message through console
     info: function (e, msg) {
     	if(e != null) { msg = msg + "Exception: "+e;}
     	console.log(msg);
@@ -298,7 +256,7 @@ var app = {
     
 };
 
-//add the device info into the menu
+//add the device information into the menu div
 function buildInfoDeviceMenu() {
 	try {
 		//It is not a global variable
@@ -313,46 +271,4 @@ function buildInfoDeviceMenu() {
 	catch(e) {
 		app.alertErrorAndExit(e, "Fatal error building info device menu...Please contact with the site administrator.")
 	}
-	
 }
-
-//add the events for each links bar
-function buildLinksBar() {
-	try {
-		//handle tocuh event on linkSearchTraceBubble component
-		linkSearchTraceBubble.addEventListener('touchstart', function(e) {
-	        console.log("go to search trace bubbles");
-	        hideResults();
-	    	cleanResultDiv();
-	    	window.setTimeout("drawSearchTraceBubble();",1000); //1second is the spent time on the hide transition
-	    	hideLinksBar(); 
-	    }, false);
-		
-		//handle tocuh event on linkSearchTraceBubble component
-		linkRefineBubble.addEventListener('touchstart', function(e) {
-			console.log("go to subcategories bubbles");
-			hideResults();
-	    	cleanResultDiv();
-	    	window.setTimeout("drawRefineBubble();",1000); //1second is the spent time on the hide transition
-	    	hideLinksBar();
-		}, false);
-		
-		//handle tocuh event on linkSearchTraceBubble component
-		linkMoreBubble.addEventListener('touchstart', function(e) {
-			console.log("go to not related bubbles");
-			hideResults();
-	    	cleanResultDiv();
-	    	window.setTimeout("drawMoreBubble();",1000); //1second is the spent time on the hide transition
-	    	hideLinksBar();
-		}, false);	
-	}
-	catch(e) {
-		app.alertErrorAndExit(e, "Fatal error building links bar...Please contact with the site administrator.")
-	}
-	
-}
-
-
-
-
-

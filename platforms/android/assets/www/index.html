@@ -76,14 +76,16 @@
         <script type="text/javascript" src="js/components.js"></script>
         <script type="text/javascript" src="js/data.js"></script>
         <script type="text/javascript" src="js/server.js"></script>
+        <script type="text/javascript" src="js/util.js"></script>
+        <script type="text/javascript" src="js/workflow.js"></script>
         <script type='application/javascript' src='js/fastclick/fastclick.js'></script>
         <script type='application/javascript' src='js/iscroll/iscroll-lite.js'></script>
         <script type="text/javascript">
             try{app.initialize();
             	//uncomment in order to simulate on chrome simulator
-            	//buildCommonComponents();
-            	//buildLinksBar(true);
-            	//showLinksBar();
+            	buildCommonComponents();
+            	buildLinksBar(true);
+            	showLinksBar();
 			}
             catch(e){console.error("Exception: "+e+", Message: FATAL Error initializing the app...Please contanct the site administrator");}
         </script>
