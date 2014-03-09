@@ -175,12 +175,12 @@ var app = {
 	        //check the internet connection
 	        console.log("Connection stage initialization..."+navigator.network.connection.type);
 	        if(navigator.network.connection.type == Connection.NONE) {
-	        	app.error(null, "Sorry, you are offline...");
+	        	app.error(null, "You are offline...");
 	    		//disable search buttom
 	        	searchBtn.disabled = true;
 	        } 
-	        document.addEventListener("online", this.handleConnection, false);
-	    	document.addEventListener("offline", this.handleConnection, false);
+	        document.addEventListener("online", app.handleConnection, false);
+	    	document.addEventListener("offline", app.handleConnection, false);
 	    	
 	    }
     	catch (e) {
@@ -199,12 +199,12 @@ var app = {
     
     
     //internet conection 
-    handleConnection: function getNotificationConnection(e) {
+    handleConnection: function () {
     	console.log("handleConnection control was invoqued...");
     	try {
-	    	if(e.type == "offline") {
+    		if(navigator.network.connection.type == Connection.NONE) {
 	    		console.log("device is offline...")
-	    		app.error(null, "Sorry, you are offline...");
+	    		app.error(null, "You are offline...");
 	    		//disable search buttom
 	        	searchBtn.disabled = true;
 	    	} else {
@@ -251,6 +251,7 @@ var app = {
 	//show a message through console
     info: function (e, msg) {
     	if(e != null) { msg = msg + "Exception: "+e;}
+    	navigator.notification.alert(msg, null, "Info");
     	console.log(msg);
     }
     
