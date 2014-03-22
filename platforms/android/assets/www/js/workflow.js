@@ -94,16 +94,29 @@ function pushSearch() {
 		hideSearchBar();
 		
 		
-		//TODO:calling to server
+		//TODO:calling to server with 
+		sendRequest("/bubble-search");
+		
+		 
+	}
+	catch(e) {
+		app.error(e, "Fatal error searching... Please contanct the site administrator.");
+	}
+}
+
+function proSeach() {
+	try {
+		
+	
 		buildListDocBubble();
 		drawListDocBubble();
 		buildLinksBar(true);
 		showLinksBar();
 		//after to show the screen , we build subcategories and intension
-		buildSubcategoriasIntension(); 
+		buildSubcategoriasIntension();
 	}
 	catch(e) {
-		app.error(e, "Fatal error searching... Please contanct the site administrator.");
+		app.error(e, "Fatal on pro-search process... Please contanct the site administrator.");
 	}
 }
 

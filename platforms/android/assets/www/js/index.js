@@ -64,6 +64,12 @@ var wasMoved = false;
 //var to split the iscroll moving and select bubble
 var auxX;
 
+//var url
+var protocol = "http";
+var server = "127.0.0.1";
+var port = "7000";
+var url;
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -182,6 +188,9 @@ var app = {
 	        document.addEventListener("online", app.handleConnection, false);
 	    	document.addEventListener("offline", app.handleConnection, false);
 	    	
+	    	//get the url 
+	    	url = protocol+"://"+server+":"+port;
+	    	console.log("setting url backend: "+url);
 	    }
     	catch (e) {
     		/*if the error happens during the app init, then it doesn't make sense go to error page, because the

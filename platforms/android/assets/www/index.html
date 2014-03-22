@@ -82,7 +82,8 @@
         <script type='application/javascript' src='js/iscroll/iscroll-lite.js'></script>
         <script type="text/javascript">
             try{app.initialize();
-            	//uncomment in order to simulate on chrome simulator
+            	//uncomment in order to simulate on chrome simulator. These steps are executed ondeviceready event
+            	url = protocol+"://"+server+":"+port;
             	buildCommonComponents();
             	buildLinksBar(true);
             	showLinksBar();
