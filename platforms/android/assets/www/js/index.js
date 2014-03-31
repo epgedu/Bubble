@@ -27,6 +27,7 @@ searchbarDiv,
 resultsDiv, 
 linksbarDiv,
 searchBtn,
+searchtxt,
 undoButtonBubble,
 backListButtonBubble,
 listDocsBubble, 
@@ -49,6 +50,7 @@ resultsDiv = document.getElementById("results_div");
 menuDiv = document.getElementById("menu_div");
 linksbarDiv = document.getElementById("linksbar_div");
 searchBtn = document.getElementById("searchbtn");
+searchtxt = document.getElementById("searchtxt");
 
 //global variables (load control). The component are built once, the first load of application
 var isBuiltListDocsBubble,
@@ -66,8 +68,11 @@ var auxX;
 
 //var url
 var protocol = "http";
-var server = "127.0.0.1";
-var port = "7000";
+//var server = "127.0.0.1";
+//var port = "7000";
+var server = "bubble-end.herokusapp.com";
+var port = "80";
+var nameResourceSearch = "/bubble-search";
 var url;
 
 var app = {

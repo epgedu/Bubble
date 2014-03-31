@@ -5,12 +5,13 @@
 
 var req; // global variable to hold request object
 
-function sendRequest(urlService) {  
+function sendRequest(filterText) {  
 	
 	try {
 		
 		// construct the URL
-		var urlRequest = url+urlService;	
+		var urlRequest = url+nameResourceSearch;	
+		console.log("url resource: "+urlRequest);
 		
 		if(window.XMLHttpRequest) {
 		
@@ -58,8 +59,8 @@ function sendRequest(urlService) {
 	    
 			
 			req.onreadystatechange = handleStateChange;
-			req.open("GET", urlRequest, true);
-			req.send(null);
+			req.open("POST", urlRequest, true);
+			req.send("text-filter="+filterText);
 		
 		}
 		else {
@@ -109,8 +110,8 @@ function handleStateChange() {
     	    	// if the request was 200 ok, but further to check the content type of getResponseHeader because it has to be json	
     	    	// Throw an error if the type was wrong
     	        var type = req.getResponseHeader("Content-Type");
-    	        if (!type.match(/^json/)) {
-    	        	
+    	        if (type != 'application/json') {
+    	        			 
     	        	console.log("Error, type request "+ type);
 	    	    	app.error(null, "Error, type request "+ type + ".Please contanct the site administrator");
 	    	    	

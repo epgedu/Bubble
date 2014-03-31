@@ -90,18 +90,28 @@ function closeMenu() {
 function pushSearch() {
 	try {
 		console.log("Init Search...");
-		//hide the search bar
-		hideSearchBar();
 		
-		
-		//TODO:calling to server with 
-		sendRequest("/bubble-search");
-		
-		 
+		//validation 
+		if (validateSearch()) {
+			//hide the search bar
+			hideSearchBar();
+			sendRequest(searchtxt.value);
+		}
+		else {
+			//it not an exception, that's why the first parameter is null
+			app.info(null, "Please, insert a text as search filter");
+		}
 	}
 	catch(e) {
 		app.error(e, "Fatal error searching... Please contanct the site administrator.");
 	}
+}
+
+function validateSearch() {
+	console.log("text search filter: "+searchtxt.value)
+	if (searchtxt.value == '') return false
+	return true;
+	
 }
 
 function proSeach() {
