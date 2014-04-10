@@ -1,3 +1,8 @@
+/**
+ * workflow.js
+ * Manage the user workflow
+ */
+
 //shows result div on screen
 function showResults() {
 	resultsDiv.className = 'results transition center';
@@ -107,6 +112,7 @@ function pushSearch() {
 	}
 }
 
+//search text field cannot be empty
 function validateSearch() {
 	console.log("text search filter: "+searchtxt.value)
 	if (searchtxt.value == '') return false
@@ -114,10 +120,9 @@ function validateSearch() {
 	
 }
 
+//thrown actions after to get a response from backend
 function proSeach() {
 	try {
-		
-	
 		buildListDocBubble();
 		drawListDocBubble();
 		buildLinksBar(true);
@@ -133,7 +138,7 @@ function proSeach() {
 
 
 //it's executed when the user click on any intension bubble
-function selectBubbleIntension() {
+function selectBubbleIntension(idSelectedDescriptor) {
 	try {
 		//hide the result layer
 		hideResults();
@@ -142,8 +147,10 @@ function selectBubbleIntension() {
 		//remove all divs from results div parent
 		cleanResultDiv();
 		
-		//get the new datas
-		//TODO
+		//get the new data. From the selected formal concept, we seek on its parents in order to get the new formal concept
+		getParentsWithDescriptor(idSelectedDescriptor);
+		//mapping the information from the new selected node
+		mapDataGui();
 
 		//refresh the components
 		buildListDocBubble();
@@ -160,7 +167,7 @@ function selectBubbleIntension() {
 }
 
 //it's executed when the user's clicked any subcategories bubble
-function selectBubbleSubcategories() {
+function selectBubbleSubcategories(idSelectedDescriptor) {
 	try {
 		//hide the result layer
 		hideResults();
@@ -169,9 +176,11 @@ function selectBubbleSubcategories() {
 		//remove all divs from results div parent
 		cleanResultDiv();
 		
-		//get the new datas
-		//TODO
-
+		//get the new data. From the selected formal concept, we seek on its children in order to get the new formal concept
+		getChildrenWithDescriptor(idSelectedDescriptor);
+		//mapping the information from the new selected node
+		mapDataGui();
+		
 		//refresh the components
 		buildListDocBubble();
 		//build the links var, draw docs list and show link bar
@@ -185,6 +194,61 @@ function selectBubbleSubcategories() {
 	}
 }
 
+//It's executed when the user's clicked any not related bubble
+function selectBubbleNotRelated(idSelectedDescriptor) {
+	try {
+		//hide the result layer
+		hideResults();
+		//hide docs link bar
+		hideLinksBar();
+		//remove all divs from results div parent
+		cleanResultDiv();
+		
+		//get the new data. From the selected formal concept, we seek on its children in order to get the new formal concept
+		getNotRelatedWithDescriptor(idSelectedDescriptor);
+		//mapping the information from the new selected node
+		mapDataGui();
+		
+		//refresh the components
+		buildListDocBubble();
+		//build the links var, draw docs list and show link bar
+		window.setTimeout("buildLinksBar(true);drawListDocBubble();showLinksBar();",1000); //1second is the spent time on the hide transition
+
+		//after to show the screen , we build subcategories and intension
+		buildSubcategoriasIntension(); 
+	}
+	catch(e) {
+		app.error(e, "Fatal error loading result after to select a not related bubble... Please contanct the app administrator.");
+	}
+}
+
+//it's executed when the user's clicked "Undo" button
+function selectBubbleHistory(formalConceptId) {
+	try {
+		//hide the result layer
+		hideResults();
+		//remove all divs from results div parent
+		cleanResultDiv();
+		
+		//get the new data
+		changeToFormalConceptHistory(formalConceptId);
+		//mapping the information from the new selected node
+		mapDataGui();
+		
+		//refresh the components
+		buildListDocBubble();
+		//build the links var, draw docs list and show link bar
+		window.setTimeout("drawListDocBubble();",1000); //1second is the spent time on the hide transition
+
+		//after to show the screen , we build subcategories and intension
+		buildSubcategoriasIntension(); 
+
+	}
+	catch(e) {
+		app.error(e, "Fatal error loading result after to select a history search... Please contanct the app administrator.");
+	}
+	
+}
 
 //function goes toward init screen
 function goInit() {
@@ -243,6 +307,19 @@ function drawSubcategoriesBubble() {
 	
 }
 
+//function loads the needed components to show the not related bubbles
+function drawNotRelatedBubble() {
+	try {
+		//update the screen
+		addOnResults(notRelatedBubble);
+		buildScroll();
+		showResults();	
+	}
+	catch(e) {
+		app.error(e, "Fatal error drawing not related bubbles... Please contanct the site administrator.");
+	}
+}
+
 //it builds the links bar. Depend on where the component will be show on list documents bubble or on subcategories/intension bubbles 
 function buildLinksBar(isToDocsList) {
 	try {
@@ -256,6 +333,7 @@ function buildLinksBar(isToDocsList) {
 		}
 		else {
 			addOnLinkBar(backListButtonBubble);
+			addOnLinkBar(moreButtonBubble);
 		}
 	}
 	catch(e) {
@@ -269,28 +347,3 @@ function buildScroll() {
 	scrollResult = new IScroll('#results_div', {dimensions:{x:30,y:60}, mouseWheel: true });
 	resultsDiv.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 }
-
-//Code to no related options
-/*
-function drawMoreBubble() {
-	//update the screen
-	addOnResults(moreBubble);
-	buildScroll();
-	showResults();
-}
-
-
-//user clicked on a bubble no related, then the user begin the search again 
-function selectBubbleNoRelated() {
-	console.log ("select bubble no related");
-	console.log ("come back to brief results");
-	
-	//hide the result layer
-	resultsDiv.className = 'results transition right';
-	//remove all divs from results div parent
-	while ( resultsDiv.firstChild ) resultsDiv.removeChild( resultsDiv.firstChild );
-	//we have not created a new content because we did not refresh 
-	//show the result layer
-	window.setTimeout("pushSearch();",1000); //1second is the spent time on the hide transition
-}
-*/

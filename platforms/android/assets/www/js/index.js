@@ -35,10 +35,12 @@ errorScreen,
 initButtonBubble,
 subcategoriesButtonBubble,
 intensionButtonBubble,
+moreButtonBubble,
 msgError,
 initError,
 subcategoriesBubble,
-intensionBubble; 
+intensionBubble,
+notRelatedBubble; 
 
 //scroll on result_div
 var scrollResult;
@@ -56,7 +58,8 @@ searchtxt = document.getElementById("searchtxt");
 var isBuiltListDocsBubble,
 isBuiltIntensionBubble,
 isBuiltSubcategoriesBubble,
-isBuiltErrorBubble  = false;
+isBuiltErrorBubble,
+isBuiltNotRelatedBubble = false;
 
 //var to save the position and state of event and to handle the swipe event
 var down_x = null;
@@ -68,10 +71,10 @@ var auxX;
 
 //var url
 var protocol = "http";
-//var server = "127.0.0.1";
-//var port = "7000";
-var server = "bubble-end.herokusapp.com";
-var port = "80";
+var server = "127.0.0.1";
+var port = "7000";
+//var server = "bubble-end.herokusapp.com";
+//var port = "80";
 var nameResourceSearch = "/bubble-search";
 var url;
 

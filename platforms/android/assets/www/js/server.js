@@ -66,7 +66,7 @@ function sendRequest(filterText) {
 		else {
 			
 			console.log("XMLHttpRequest is not supported");
-			app.error(null, "XMLHttpRequest is not supported... Please contanct the site administrator.");
+			app.error(null, "XMLHttpRequest is not supported... Please contact the app administrator.");
 	
 		}
 
@@ -75,59 +75,68 @@ function sendRequest(filterText) {
 	catch(e) {
 	
 		console.log("Error sending request")
-		app.error(e, "Error sending request... Please contanct the site administrator.");
+		app.error(e, "Error sending request... Please contact the app administrator.");
 		
 	}
 }
 
 function handleStateChange() {
 	
-	console.log("new status: "+req.readyState);
-	
-    if(req.readyState == 4) { // the request is done
-    	
-    	console.log("request completed");
-    	console.log("request status: "+req.status);
-    	
-    	
-    	if(req.responseText == "") {
-    	
-    		console.log("Error, response empty");
-			app.error(null, "Error, response empty... Please contact the site administrator.");
-			
-    	}
-    	else {
-    		
-    		// Throw an error if the request was not 200 OK 
-    	    if (req.status != 200) {
-    	    	
-    	    	console.log("Error, status request "+ req.status +":"+req.responseText);
-    	    	app.error(null, "Error, status request "+ req.status +":"+req.responseText+" Please contanct the site administrator.");
-    	    	
-    	    }
-    	    else {
-    	    	
-    	    	// if the request was 200 ok, but further to check the content type of getResponseHeader because it has to be json	
-    	    	// Throw an error if the type was wrong
-    	        var type = req.getResponseHeader("Content-Type");
-    	        if (type != 'application/json') {
-    	        			 
-    	        	console.log("Error, type request "+ type);
-	    	    	app.error(null, "Error, type request "+ type + ".Please contanct the site administrator");
+	try {
+		console.log("new status: "+req.readyState);
+		
+	    if(req.readyState == 4) { // the request is done
+	    	
+	    	console.log("request completed");
+	    	console.log("request status: "+req.status);
+	    	
+	    	
+	    	if(req.responseText == "") {
+	    	
+	    		console.log("Error, response empty");
+				app.error(null, "Error, response empty... Please contact the app administrator.");
+				
+	    	}
+	    	else {
+	    		
+	    		// Throw an error if the request was not 200 OK 
+	    	    if (req.status != 200) {
 	    	    	
-    	        }
-    	        else {
-    	        	
-    	        	//process json object
-    	        	console.log("process json object");
-    	        	proSeach();
-    	        	
-    	        }
-    	    	
-    	    }	
-    	
-    	}
-    	
-    }
-   
+	    	    	console.log("Error, status request "+ req.status +":"+req.responseText);
+	    	    	app.error(null, "Error, status request "+ req.status +":"+req.responseText+" Please contact the app administrator.");
+	    	    	
+	    	    }
+	    	    else {
+	    	    	
+	    	    	// if the request was 200 ok, but further to check the content type of getResponseHeader because it has to be json	
+	    	    	// Throw an error if the type was wrong
+	    	        var type = req.getResponseHeader("Content-Type");
+	    	        if (type != 'application/json') {
+	    	        			 
+	    	        	console.log("Error, type request "+ type);
+		    	    	app.error(null, "Error, type request "+ type + ".Please contact the app administrator");
+		    	    	
+	    	        }
+	    	        else {
+	    	        	
+	    	        	//process json object
+	    	        	console.log("process json object");
+	    	        	savedResponse(req.responseText);
+	    	        	proSeach(); // continue the workflow
+	    	        	
+	    	        }
+	    	    	
+	    	    }	
+	    	
+	    	}
+	    	
+	    }
+
+	}
+	catch (e) {
+		console.log("Error whilst processing response");
+		app.error(e, "Error whilst processing response... Please contact the app administrator.");
+		
+	}
+	   
 }
