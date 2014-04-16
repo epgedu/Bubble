@@ -124,7 +124,9 @@ function mapDataGui(positionFormalConcept) {
 	}
 	
 	
-	//get the intension. It is the group of attributes among all children (union of every intension) minus the attributes from selected formal concept.
+	//get subcategories. It is the group of attributes among all children (union of every intension) minus the attributes from selected formal concept. It means that the subcategories are made from the intensions of all childrens, except
+	//the inherited attributes from selected formal concept. 
+	
 	//first step, to create the group with every children's intension.
 	subCategoriesDescriptors = [];//init array
 	var formalConceptChildren;
@@ -183,7 +185,6 @@ function mapDataGui(positionFormalConcept) {
 	}
 	
 	 
-	//El conjunto NTop siempre es el mismo hasta que el usuario realiza una nueva busqueda. Por lo tanto, lo calculamos al ppio cuando recebimos el objeto JSon del backend
 	//get the attributes to represent the options to go toward not related nodes on the lattice. For that, we need remove from ntop group the attributes which makes the intension for selected node.
 	//the ntop group always is the same until the user do a new search. Therefore, we get ntop group on the beginning when we receive the json object
 	//first step is fill the not related vector whit ntop group
@@ -258,7 +259,7 @@ function getChildrenWithDescriptor(idSelectedDescriptor) {
 }
 
 /**
- * with an id descriptor we get the not related node with this descriptor in its intension. Just can be one not related formal concept who posses the attribute. The reason is because the user could not select
+ * with an id descriptor we get the not related node with this descriptor. Just can be one not related formal concept who posses the attribute. The reason is because the user could not select
  * any inherited attributes from root node.
  * @param idSelectedDescriptor
  */
@@ -294,9 +295,6 @@ function changeToFormalConceptHistory(formalConceptId) {
 	//in this case, we don't save the new formal concept in history, becasuse we got it from the history
 }
 
-//nTop es el conjunto de atributos(intension) de los hijos del nodo padre (no pueden exitir el mismo atributo en distintos hijos a no ser que los hijos hereden un atributo del nodo raiz). En este caso, el atributo heredado no 
-//lo incluimos dentro del conjunto Ntop, porque en realidad pertenece al padre que en este caso es el nodo raiz. Este descriptor ,se usara en el caso de que se seleccione un descriptor de los no relacionados, como posible
-//atributo a seleccionar para subir por el retticulo hasta el nodo padre, es decir hasta el nodo raiz
 /**
  * get nTop group from root node position.  
  * The ntop group contains all attributes of root node childrens. Could be that one attribute is in different childrens, because of this attribute is inherited from root node. 
