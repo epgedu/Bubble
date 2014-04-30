@@ -280,28 +280,34 @@ function buildIntension() {
 			if (i % 3 == 1) {left = '10%';}
 			if (i % 3 == 2) {left = '55%';}
 			var bubbleLink = document.createElement('li');
-			bubbleLink.className = 'li_bubble';
 			
 			//setting id element "li" with the id descriptor. That way, when the user ckick on the bubble, we can know the selected descriptor during the event
 			bubbleLink.id = intensionDescriptors[i].id;
-			
-			
 			bubbleLink.style.marginLeft = left;
-			bubbleLink.style.background = getRandomColour();
 			bubbleLink.innerHTML = "<br><br><br> "+intensionDescriptors[i].value;
 			
-			bubbleLink.addEventListener('touchstart', function(event) {
-				auxX = event.targetTouches[0].pageX;
-	    	}, false);
+			//if the attribute is inherited then it cannot be pushed in order to ascendent through lattice 
+			if(intensionDescriptors[i].inherited == false) { 
+				bubbleLink.className = 'li_bubble';
+				bubbleLink.style.background = getRandomColour();
+				
+				bubbleLink.addEventListener('touchstart', function(event) {
+					auxX = event.targetTouches[0].pageX;
+		    	}, false);
 			
-			bubbleLink.addEventListener('touchend', function(event) {
-				event.stopPropagation();
-				if(auxX == event.changedTouches[0].pageX) { //if not moving
-					console.log("refreshing from intension bubble...");
-					selectBubbleIntension(event.target.id); 
-				}
-			}, false);
-			
+				bubbleLink.addEventListener('touchend', function(event) {
+					event.stopPropagation();
+					if(auxX == event.changedTouches[0].pageX) { //if not moving
+						console.log("refreshing from intension bubble...");
+						selectBubbleIntension(event.target.id); 
+					}
+				}, false);
+			}
+			else {
+				bubbleLink.className = 'li_bubble_inherited';
+				
+				bubbleLink.innerHTML += "<br><b>{Attribute inherited}<b>";
+			}
 			intensionBubble.appendChild(bubbleLink);
 		}
 		

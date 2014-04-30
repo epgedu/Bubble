@@ -155,9 +155,8 @@ function mapDataGui(positionFormalConcept) {
 	}
 	
 	//get the attributes to go up through lattice (intensionDescriptors). The group is made from the parent's intension attributes.
-	//Could be that some attributes are inherited from more than one parent, then we just include that attribute once and when the user selects this attribute, what parent we go to? We go to the first parent where we find the 
-	//attribute. This happens only when the user go up through the lattice toward root node. As we discussed on the documentation project, that allows us to return for any possible path that contains the attributes used. 
-	//TODO: Explicacion detallada y pagina de la memoria donde esta
+	//Could be that some attributes are inherited from more than one parent, then we just include that attribute once and to disable it
+	// in order of the user cannot push it. 
 	intensionDescriptors = []; //init array
 	var formalConceptParent;
 	for(var i = 0; i < formalConcept.parentsFormalConceptId.length; i++) {
@@ -167,13 +166,16 @@ function mapDataGui(positionFormalConcept) {
 		for(var j = 0; j < formalConceptParent.intension.length; j++) {
 			//check the attribute is not repeat  
 			var attributeIn = false;
-			for(var k = 0; k < intensionDescriptors.length; k++) {
+			for(var k = 0; k < intensionDescriptors.length && attributeIn == false; k++) {
 				if(intensionDescriptors[k].id == formalConceptParent.intension[j].id){
+					//the attribute is already in the array
+					intensionDescriptors[k].inherited = true;
 					attributeIn = true;
 				}
 			}
 			if(!attributeIn) {
 				//add attribute
+				formalConceptParent.intension[j].inherited = false;
 				intensionDescriptors.push(formalConceptParent.intension[j]);
 			}
 		}
@@ -300,7 +302,7 @@ function changeToFormalConceptHistory(formalConceptId) {
  * The ntop group contains all attributes of root node childrens. Could be that one attribute is in different childrens, because of this attribute is inherited from root node. 
  * In this case, the inherited attribute is not included in ntop group because the truth is that this attribute just belong to the parent , in this case the root node. This descriptor 
  * will be used when the user want to get the root node. 
- */.
+ */
 function getNTop(rootPositionNode) {
 	console.log("getting ntop group...");
 	nTop = [];
