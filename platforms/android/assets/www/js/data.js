@@ -89,21 +89,30 @@ function savedResponse(jsonResponse) {
 		JsonLattice = JSON.parse(jsonResponse);
 		console.log("No of formal concepts: "+JsonLattice.contentObjects.length);
 		
-		//get the position for root node. Normally it will be the fist formal concept, but to be sure we get it.
-		positionRootNode = getPosRootNode();
-		
-		//add the inital search in history
-		savedHistory(JsonLattice.contentObjects[positionRootNode].conceptId);
-		
-		//get NTop group to get the not related nodes. Just once, due to this group NTop is always the same until the user make another search
-		getNTop(positionRootNode);
-		
-		//fill the structures for extension, subcategories and intension
-		mapDataGui(positionRootNode);
+		if(JsonLattice.contentObjects.length == 0) {
+			console.log("Error, response empty");
+			app.infoMsgExit(null, "No results...");
+		}
+		else {
+			//get the position for root node. Normally it will be the fist formal concept, but to be sure we get it.
+			positionRootNode = getPosRootNode();
+			
+			//add the inital search in history
+			savedHistory(JsonLattice.contentObjects[positionRootNode].conceptId);
+			
+			//get NTop group to get the not related nodes. Just once, due to this group NTop is always the same until the user make another search
+			getNTop(positionRootNode);
+			
+			//fill the structures for extension, subcategories and intension
+			mapDataGui(positionRootNode);
+			
+			// continue the workflow
+			proSeach();
+		}
 	}
 	catch(e) {
-		console.log("Error, mapping json response");
-    	app.error(e, "Error, mapping json response. Please contact the app administrator.");
+		console.log("Error, reading json response");
+    	app.error(e, "Error, reading json response. Please contact the app administrator.");
 	}
 }
 

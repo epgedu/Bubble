@@ -94,7 +94,7 @@ function handleStateChange() {
 	    	if(req.responseText == "") {
 	    	
 	    		console.log("Error, response empty");
-				app.error(null, "Error, response empty... Please contact the app administrator.");
+				app.Error(null, "Error, response empty...");
 				
 	    	}
 	    	else {
@@ -122,8 +122,6 @@ function handleStateChange() {
 	    	        	//process json object
 	    	        	console.log("process json object");
 	    	        	savedResponse(req.responseText);
-	    	        	proSeach(); // continue the workflow
-	    	        	
 	    	        }
 	    	    	
 	    	    }	

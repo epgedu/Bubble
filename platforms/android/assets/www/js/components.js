@@ -467,10 +467,13 @@ function buildError(msg) {
 			
 			//buttom init from error screen
 			initError = document.createElement('div');
-			initError.id = 'error_bubble';
-			initError.className = 'link_error_bubble';
+			var image = document.createElement("img"); 
+			image.className = 'back_init_bubble';
+			image.src = "img/back.png"; 
+			image.alt = "Return to results";
+			initError.appendChild(image);
 			errorScreen.appendChild(initError);
-		
+			
 			initError.addEventListener('touchstart', function(e) {
 				console.log('click on init error');
 				goInit();

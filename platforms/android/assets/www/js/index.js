@@ -265,10 +265,17 @@ var app = {
     	console.log(msg);
 	},
     
-	//show a message through console
+	//show a info message
     info: function (e, msg) {
     	if(e != null) { msg = msg + "Exception: "+e;}
     	navigator.notification.alert(msg, null, "Info");
+    	console.log(msg);
+    },
+	
+	//show a info message and init
+    infoMsgExit: function (e, msg) {
+    	navigator.notification.alert(msg, null, "Info");
+    	if(e != null) { msg = msg + "Exception: "+e;}
     	console.log(msg);
     }
     

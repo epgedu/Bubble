@@ -98,10 +98,12 @@
 .accordion div .content {
     display: none;
     margin: 5px 0;
+    font: 8px/35px Arial, sans-serif;
 }
  
 .accordion div:target .content {
     display: block;
+    
 }
  
 .accordion > div {

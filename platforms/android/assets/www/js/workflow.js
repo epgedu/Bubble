@@ -257,6 +257,8 @@ function goInit() {
 		hideLinksBar();
 		//remove all divs from results div parent
 		cleanResultDiv();
+		//remove the filter search
+		document.getElementById("searchtxt").value = "";
 		showSearchBar();
 	}
 	catch (e) {
