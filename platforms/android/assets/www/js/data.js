@@ -190,7 +190,7 @@ function mapDataGui(positionFormalConcept) {
 		}
 		
 	}
-	console.log("Intension: ");
+	console.log("Attributes Intension: ");
 	for(var i = 0; i < intensionDescriptors.length; i++) {
 		console.log(intensionDescriptors[i]);
 	}
@@ -199,14 +199,16 @@ function mapDataGui(positionFormalConcept) {
 	//get the attributes to represent the options to go toward not related nodes on the lattice. For that, we need remove from ntop group the attributes which makes the intension for selected node.
 	//the ntop group always is the same until the user do a new search. Therefore, we get ntop group on the beginning when we receive the json object
 	//first step is fill the not related vector whit ntop group
-	notRelatedDescriptors = nTop;
+	for ( var i = 0; i < nTop.length;  i++ ) {
+		notRelatedDescriptors[i] = nTop[i];
+	}
 	//for each attribute (intension) in the current formal concept, chek if this is in ntop
 	for(var i = 0; i < formalConcept.intension.length; i++) {
 		//check if the attribute is in nTop
 		var posInNtop = isInNtop(formalConcept.intension[i].id);
 		if (posInNtop > -1) {
 			//if it is in ntop, then we need to remove it from not related group
-			notRelatedDescriptors.splice(posInNtop,1);
+			removeNotRelated(formalConcept.intension[i].id);
 		}
 	}
 	
@@ -379,4 +381,18 @@ function getPosRootNode() {
 		}
 	}
 	return null;
+}
+
+/**
+ * Remove not related descriptor in no related array
+ * @param idDescriptor
+ */
+function removeNotRelated(idAttribute) {
+	for (var i = 0; i < notRelatedDescriptors.length; i++) {
+		if(notRelatedDescriptors[i].id == idAttribute) {
+			notRelatedDescriptors.splice(i,1);
+			return;
+		}
+
+	}
 }

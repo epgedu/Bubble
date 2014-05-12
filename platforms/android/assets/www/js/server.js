@@ -120,6 +120,7 @@ function handleStateChange() {
 	    	        else {
 	    	        	
 	    	        	//process json object
+	    	        	console.log(req.responseText)
 	    	        	console.log("process json object");
 	    	        	savedResponse(req.responseText);
 	    	        }
