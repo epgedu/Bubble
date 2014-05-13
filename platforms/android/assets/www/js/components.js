@@ -168,6 +168,8 @@ function buildMoreButton() {
 //Build list docs bubble div. This div contains the results which belong to extension of the selected node.  
 function buildListDocBubble() {
 	try {
+		var TAG_SNIPPET = "snippetObjectBubble:";
+		var TAG_URL = "urlObjectBubble:";
 		//if the component hasn't been built then it builds the components. Just once.
 		if(!isBuiltListDocsBubble) {
 			console.log("creating the list docs bubble component...");
@@ -187,31 +189,33 @@ function buildListDocBubble() {
 	
 		//it creates the bubbles with datas
 		var tittle;
-		var spliter;
+		var snippet;
 		var url;
+		var initSnippet;
+		var initUrl;
+		var auxUrl;
+		var endUrl;
 		for (i=0; i<formalConcept.extension.length; i++) {
 			var listLink = document.createElement('li');
 			listLink.className = 'li_list_doc';
 			
-			/*split the tittle, spliter and url*/
+			/*split the title, snippet and url*/
+			/*the format when we have built the content was: vaule_title snippetObjectBubble:value_snippet || urlObjectBubble: vaule_url*/
+			initSnippet = (formalConcept.extension[i].value).indexOf(TAG_SNIPPET);
+			initUrl = (formalConcept.extension[i].value).indexOf(TAG_URL); 
+			tittle = (formalConcept.extension[i].value).substring(0, initSnippet -1);
+			snippet = (formalConcept.extension[i].value).substring(initSnippet + TAG_SNIPPET.length, initUrl);
 			
-			/*TODO: en el ejemplo de salida no tenemos descripcion porque es una salida de  video. Por lo tanto,  establecemos como titulo y descripcion el mismo texto.
-			 */
-			var initUrl = (formalConcept.extension[i].value).indexOf("http"); //http or https
-			var auxUrl = (formalConcept.extension[i].value).substring(initUrl, (formalConcept.extension[i].value).length);
-			var endUrl = auxUrl.indexOf(" ");
+			auxUrl = (formalConcept.extension[i].value).substring(initUrl + TAG_URL.length, (formalConcept.extension[i].value).length);
+			endUrl = auxUrl.indexOf(" ");
 			if(endUrl == -1) {
-				//then thre is not space after the url
+				//then there is not space after the url
 				url = auxUrl;
 			}
 			else {
 				url = auxUrl.substring(initUrl, endUrl);
 				
 			}
-			
-			tittle = (formalConcept.extension[i].value).substring(0, initUrl);
-			spliter = "";
-			
 			console.log(formalConcept.extension[i].value);
 			console.log(tittle);
 			console.log(url);
@@ -219,7 +223,7 @@ function buildListDocBubble() {
 			listLink.style.marginLeft = '5%';
 			listLink.style.marginRight = '5%';
 			listLink.innerHTML = "<b>"+tittle+"</b><br>";
-			listLink.innerHTML += "<i>"+spliter+"</i><br>";
+			listLink.innerHTML += "<i>"+snippet+"</i><br>";
 			listLink.innerHTML += "<a href='#'>"+url+"</a>";
 			
 			listLink.addEventListener('touchstart', function(event) {
@@ -251,6 +255,7 @@ function buildSubcategoriasIntension(){
 //Buids the intension bubble div
 function buildIntension() {
 	try {
+		var TAG_TYPE = "typeAttributeBubble";
 		//if the component hasn't been built then it builds the components. Just once.
 		if(!isBuiltIntensionBubble) {
 			console.log("creating the intension bubble component...");
@@ -274,6 +279,9 @@ function buildIntension() {
 			intensionBubble.innerHTML += "<li class='li_space' style='left:"+xy[0]+"px;top:"+xy[1]+"px'></li>";
 		}
 		//draw the bubbles with datas 
+		var initType;
+		var nameAttribute;
+		var typeAttribute;
 		for (i=0; i<intensionDescriptors.length; i++) {
 			var left = '0%'; //position bubbles with content
 			if (i % 3 == 0) {left = '30%';}
@@ -281,10 +289,15 @@ function buildIntension() {
 			if (i % 3 == 2) {left = '55%';}
 			var bubbleLink = document.createElement('li');
 			
+			initType = (intensionDescriptors[i].value).indexOf(TAG_TYPE);
+			nameAttribute = (intensionDescriptors[i].value).substring(0, initType -1);
+			typeAttribute = (intensionDescriptors[i].value).substring(initType + TAG_TYPE.length, intensionDescriptors[i].value.length);
+			
 			//setting id element "li" with the id descriptor. That way, when the user ckick on the bubble, we can know the selected descriptor during the event
 			bubbleLink.id = intensionDescriptors[i].id;
 			bubbleLink.style.marginLeft = left;
-			bubbleLink.innerHTML = "<br><br><br> "+intensionDescriptors[i].value;
+			bubbleLink.innerHTML = "<br><br><br> "+nameAttribute+"<br>";
+			bubbleLink.innerHTML += "<i>"+typeAttribute+"</i>"
 			
 			//if the attribute is inherited then it cannot be pushed in order to ascendent through lattice 
 			if(intensionDescriptors[i].inherited == false) { 
@@ -323,6 +336,7 @@ function buildIntension() {
 //Builds the refine bubble div
 function buildSubcategories() {
 	try {
+		var TAG_TYPE = "typeAttributeBubble";
 		if(!isBuiltSubcategoriesBubble) {
 			console.log("creating the subcategories bubble component...");
 			subcategoriesBubble = document.createElement('div');
@@ -346,6 +360,9 @@ function buildSubcategories() {
 		}
 			
 		//draw the bubbles with datas
+		var initType;
+		var nameAttribute;
+		var typeAttribute;
 		for (i=0; i<subCategoriesDescriptors.length; i++) {
 			var left = '0%'; //position bubbles with content
 			if (i % 3 == 0) {left = '30%';}
@@ -353,13 +370,18 @@ function buildSubcategories() {
 			if (i % 3 == 2) {left = '55%';}
 			var bubbleLink = document.createElement('li');
 			bubbleLink.className = 'li_bubble';
+
+			initType = (subCategoriesDescriptors[i].value).indexOf(TAG_TYPE);
+			nameAttribute = (subCategoriesDescriptors[i].value).substring(0, initType -1);
+			typeAttribute = (subCategoriesDescriptors[i].value).substring(initType + TAG_TYPE.length, subCategoriesDescriptors[i].value.length);
 			
 			//setting id element "li" with the id descriptor. That way, when the user ckick on the bubble, we can know the selected descriptor during the event
 			bubbleLink.id = subCategoriesDescriptors[i].id;
 			
 			bubbleLink.style.marginLeft = left;
 			bubbleLink.style.background = getRandomColour();
-			bubbleLink.innerHTML = "<br><br><br>"+subCategoriesDescriptors[i].value; 
+			bubbleLink.innerHTML = "<br><br>"+nameAttribute+"<br>";
+			bubbleLink.innerHTML += "<i>"+typeAttribute+"</i>"
 				
 			bubbleLink.addEventListener('touchstart', function(event) {
 				auxX = event.targetTouches[0].pageX;
@@ -387,6 +409,7 @@ function buildSubcategories() {
  */
 function buildNotRelated() {
 	try {
+		var TAG_TYPE = "typeAttributeBubble";
 		if(!isBuiltNotRelatedBubble) {
 			console.log("creating the not related bubble component...");
 			notRelatedBubble = document.createElement('div');
@@ -410,6 +433,9 @@ function buildNotRelated() {
 		}
 			
 		//draw the bubbles with datas
+		var initType;
+		var nameAttribute;
+		var typeAttribute;
 		for (i=0; i<notRelatedDescriptors.length; i++) {
 			var left = '0%'; //position bubbles with content
 			if (i % 3 == 0) {left = '30%';}
@@ -418,13 +444,18 @@ function buildNotRelated() {
 			var bubbleLink = document.createElement('li');
 			bubbleLink.className = 'li_bubble';
 			
+			initType = (notRelatedDescriptors[i].value).indexOf(TAG_TYPE);
+			nameAttribute = (notRelatedDescriptors[i].value).substring(0, initType -1);
+			typeAttribute = (notRelatedDescriptors[i].value).substring(initType + TAG_TYPE.length, notRelatedDescriptors[i].value.length);
+			
 			//setting id element "li" with the id descriptor. That way, when the user ckick on the bubble, we can know the selected descriptor during the event
 			bubbleLink.id = notRelatedDescriptors[i].id;
 			
 			bubbleLink.style.marginLeft = left;
 			bubbleLink.style.background = getRandomColour();
-			bubbleLink.innerHTML = "<br><br><br>"+notRelatedDescriptors[i].value; 
-				
+			bubbleLink.innerHTML = "<br><br><br>"+nameAttribute; 
+			bubbleLink.innerHTML += "<i>"+typeAttribute+"</i>"
+			
 			bubbleLink.addEventListener('touchstart', function(event) {
 				auxX = event.targetTouches[0].pageX;
 	    	}, false);
