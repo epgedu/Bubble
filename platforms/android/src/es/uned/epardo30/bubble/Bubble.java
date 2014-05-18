@@ -19,17 +19,19 @@
 
 package es.uned.epardo30.bubble;
 
-import org.apache.cordova.*;
 import android.os.Bundle;
+import org.apache.cordova.*;
 
-public class Bubble extends CordovaActivity 
+public class bubble extends CordovaActivity 
 {
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
-    	super.onCreate(savedInstanceState);
-    	super.init();
-        super.loadUrl("file:///android_asset/www/index.html");
+        super.onCreate(savedInstanceState);
+        super.init();
+        // Set by <content src="index.html" /> in config.xml
+        super.loadUrl(Config.getStartUrl());
+        //super.loadUrl("file:///android_asset/www/index.html");
     }
 }
 

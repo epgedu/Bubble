@@ -195,6 +195,8 @@ function buildListDocBubble() {
 		var initUrl;
 		var auxUrl;
 		var endUrl;
+		var calls = [];
+		var elements = [];
 		for (i=0; i<formalConcept.extension.length; i++) {
 			var listLink = document.createElement('li');
 			listLink.className = 'li_list_doc';
@@ -225,20 +227,49 @@ function buildListDocBubble() {
 			listLink.innerHTML = "<b>"+tittle+"</b><br>";
 			listLink.innerHTML += "<i>"+snippet+"</i><br>";
 			listLink.innerHTML += "<a href='#'>"+url+"</a>";
+			elements[i] = listLink;
 			
-			listLink.addEventListener('touchstart', function(event) {
+			//define one function for each li object
+			calls[i] = function(evt) {
+				
+				var ref = window.open('http://apache.org', '_blank', 'location=yes');
+				ref.addEventListener('loadstart', function(event) { console.log(event.url); });
+			
+				if(auxX == evt.changedTouches[0].pageX) { //if not moving
+					//window.open(evt.currentTarget.id, '_system', 'location=yes,toolbar=yes,EnableViewportScale=no');
+				}
+			};
+			
+			elements[i].addEventListener('touchstart', function(event) {
 				auxX = event.targetTouches[0].pageX;
 	    	}, false);
-			
-			listLink.addEventListener('touchend', function(event) {
-				if(auxX == event.changedTouches[0].pageX) { //if not moving
-					console.log("opening link on external webview...");
-					window.open(url, '_blank', 'location=yes');
-				}
-			}, false);
-			listDocsBubble.appendChild(listLink);
+			//pass the url in order to know it when the event is thrown
+			elements[i].id = url;
+			elements[i].addEventListener('touchend', calls[i], false);
+			listDocsBubble.appendChild(elements[i]);
 		}
-	
+		
+		
+		
+		/*
+		//build the event to click the link and to open the inappbrowser plugin
+		for (j=0; j<formalConcept.extension.length; j++) {	
+			//define one function for each li object
+			calls[j] = function(evt) { 
+				if(auxX == evt.changedTouches[0].pageX) { //if not moving
+					window.open("'"+evt.currentTarget.id+"'", '_blank', 'location=yes'); 
+				}
+			};
+			
+			elements[j].addEventListener('touchstart', function(event) {
+				auxX = event.targetTouches[0].pageX;
+	    	}, false);
+			//pass the url in order to know it when the event is thrown
+			elements[j].id = i;
+			elements[j].addEventListener('touchend', calls[j], false);
+			listDocsBubble.appendChild(elements[j]);
+		}
+		*/
 	}
 	catch(e) {
 		app.error(e, "Fatal error building list docs bubble... Please contanct the site administrator.");

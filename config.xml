@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<widget id="es.uned.epardo30.bubble" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets">
+    <name>bubble</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+	
+	<!-- Splashscreen !-->
+	<preference name="SplashScreen" value="splash" />
+	<preference name="SplashScreenDelay" value="5000" />
+	
+	<!-- setting to blackberry10-->
+	<platform name="blackberry10">
+        <preference name="websecurity" value="disable"/>
+		<icon src="img/ic_bubble.png" />
+		<rim:splash src="img/splash.png" />
+	</platform>
+	
+</widget>
