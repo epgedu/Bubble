@@ -76,20 +76,20 @@ body {
 
  /*Position up page*/
 .page.up { 
-	-webkit-transform: translate3d(0, -100%, 0); /* Safari and Chrome */
-	-moz-transform: translate3d(0, -100%, 0); /* Firefox */
-	-o-transform: translate3d(0, -100%, 0);   /* Opera */
-	-ms-transform: translate3d(0, -100%, 0); /* IE 9 */
-	transform: translate3d(0, -100%, 0);
+	-webkit-transform: translate3d(0, -150%, 0); /* Safari and Chrome */
+	-moz-transform: translate3d(0, -150%, 0); /* Firefox */
+	-o-transform: translate3d(0, -150%, 0);   /* Opera */
+	-ms-transform: translate3d(0, -150%, 0); /* IE 9 */
+	transform: translate3d(0, -150%, 0);
 }
 
 /*Position down page*/
 .page.down { 
-	-webkit-transform: translate3d(0, 100%, 0); /* Safari and Chrome */
-	-moz-transform: translate3d(0, 100%, 0); /* Firefox */
-	-o-transform: translate3d(0, 100%, 0);   /* Opera */
-	-ms-transform: translate3d(0, 100%, 0); /* IE 9 */
-	transform: translate3d(0, 100%, 0);
+	-webkit-transform: translate3d(0, 150%, 0); /* Safari and Chrome */
+	-moz-transform: translate3d(0, 150%, 0); /* Firefox */
+	-o-transform: translate3d(0, 150%, 0);   /* Opera */
+	-ms-transform: translate3d(0, 150%, 0); /* IE 9 */
+	transform: translate3d(0, 150%, 0);
 }
 
 /*Page transition animation*/

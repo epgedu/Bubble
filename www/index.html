@@ -7,6 +7,7 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
+	
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -26,7 +27,8 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/menu.css" />
         <link rel="stylesheet" type="text/css" href="css/components.css" />
-        <title>Bubble Search</title>
+		<link rel="stylesheet" type="text/css" href="css/google.css" />
+		<title>Bubble Search</title>
     </head>
     <body>
     	
@@ -58,16 +60,27 @@
 			</div>
         </div>
         
-        
-        <div id="app_div">
-        	<div id="searchbar_div">
-				<input type="search" id="searchtxt" autocomplete="off" autofocus="autofocus" placeholder="search...">
+		<div id="app_div" class="cse-branding-bottom" style="background-color:#FFFFFF;color:#000000">
+		  <div id="searchbar_div" class="cse-branding-form">
+			<form action="" id="boxtext">
+			  <div>
+				<input type="hidden" name="cx" value="000888210889775888983:3gepro1fol8" />
+				<input type="hidden" name="ie" value="UTF-8" />
+				<input type="text" name="q" id="searchtxt" size="31" />
 				<input type="button" id="searchbtn" onclick="javascript:pushSearch()">
+			  </div>
+			</form>
+		    <div class="cse-branding-logo">
+				<img src="img/google.gif" alt="Google" />
 			</div>
-        	<div id="results_div"></div>
-        	<div id="linksbar_div"></div>
-        </div>
-        
+			<div class="cse-branding-text">
+				Custom Search
+			</div>
+		  </div>
+		  <div id="results_div"></div>
+          <div id="linksbar_div"></div>
+		</div>
+		
         
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -81,10 +94,10 @@
         <script type="text/javascript">
             try{app.initialize();
             	//uncomment in order to simulate on chrome simulator. On device and android emulator, these steps are executed ondeviceready event
-            	//url = protocol+"://"+server+":"+port;
-            	//buildCommonComponents();
-            	//buildLinksBar(true);
-            	//showLinksBar();
+            	url = protocol+"://"+server+":"+port;
+            	buildCommonComponents();
+            	buildLinksBar(true);
+            	showLinksBar();
 			}
             catch(e){console.error("Exception: "+e+", Message: FATAL Error initializing the app...Please contanct the site administrator");}
         </script>

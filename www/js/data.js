@@ -20,6 +20,8 @@ var nTop = [];
 var notRelatedDescriptors = [];
 //position root formal concept
 var positionRootNode = 0;
+//total number of results
+var totalResults = 0;
 
 //array to keep the last 10 search 
 var historySearch = [];
@@ -94,6 +96,10 @@ function savedResponse(jsonResponse) {
 			app.infoMsgExit(null, "No results...");
 		}
 		else {
+			//total results
+			totalResults = JsonLattice.totalResult;
+			console.log("No of formal results processed: "+totalResults);
+			
 			//get the position for root node. Normally it will be the fist formal concept, but to be sure we get it.
 			positionRootNode = getPosRootNode();
 			
